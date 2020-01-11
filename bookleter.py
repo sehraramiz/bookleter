@@ -1,6 +1,6 @@
 #!/bin/python3
 
-import subprocess, sys
+import subprocess, sys, pathlib
 
 
 if len(sys.argv) < 3:
@@ -9,14 +9,20 @@ if len(sys.argv) < 3:
 if sys.argv[1][-4:] == ".pdf":
     print(sys.argv)
 
+
 start_page_number = int(sys.argv[2].split("-")[0])
 end_page_number = int(sys.argv[2].split("-")[1])
 
+current_path = pathlib.Path.cwd()
+temp_path = str(current_path) + "/tmp/"
+pathlib.Path(temp_path).mkdir(parents=True, exist_ok=True)
+
 original_pdf_name = sys.argv[1]
-margined_pdf_name = original_pdf_name.replace(".pdf", "_margined.pdf")
+margined_pdf_name = temp_path + original_pdf_name.replace(".pdf", "_margined.pdf")
 pickout_pages_pdf_name = margined_pdf_name.replace(".pdf", "_{}_{}.pdf".format(start_page_number, end_page_number))
 blanked_pdf_name = pickout_pages_pdf_name.replace(".pdf", "_blanked.pdf")
 final_pdf_name = original_pdf_name.replace(".pdf", "_print_this.pdf")
+blank_pdf_name = temp_path + "/blank.pdf"
 
 ## set margin or crop
 ## '10 7 10 7' --> 'left top right bottom'
@@ -42,7 +48,7 @@ correct_pages_count = ((((end_page_number - start_page_number) + 1) // 8) + 1) *
 white_pages_count = correct_pages_count - end_page_number
 
 ## create a blank pdf file
-create_blank_pdf_command = "convert xc:none -page Letter blank.pdf"
+create_blank_pdf_command = "convert xc:none -page Letter {}".format(blank_pdf_name)
 subprocess.call([
     create_blank_pdf_command,
     ], shell=True)
@@ -51,7 +57,7 @@ subprocess.call([
 ## add n white pages to pdf
 ## example command: pdftk A=in.pdf B=blank.pdf cat A1-end B B B output out.pdf
 B = "B " * white_pages_count
-add_white_pages_command = "pdftk A={} B=blank.pdf cat A1-end {} output {}".format(pickout_pages_pdf_name, B, blanked_pdf_name)
+add_white_pages_command = "pdftk A={} B={} cat A1-end {} output {}".format(blank_pdf_name, pickout_pages_pdf_name, B, blanked_pdf_name)
 subprocess.call([
     add_white_pages_command,
     ], shell=True)
@@ -66,4 +72,11 @@ pdftk_shuffle_command = subprocess.check_output([
 
 subprocess.call([
     pdftk_shuffle_command,
+    ], shell=True)
+
+
+## Cleanup
+cleanup_command = "rm {}/*".format(temp_path)
+subprocess.call([
+    cleanup_command,
     ], shell=True)
