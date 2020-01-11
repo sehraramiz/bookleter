@@ -76,7 +76,7 @@ subprocess.call([
 
 
 ## Cleanup
-cleanup_command = "rm {}/*".format(temp_path)
+cleanup_command = "rm -r {}".format(temp_path)
 subprocess.call([
     cleanup_command,
     ], shell=True)
