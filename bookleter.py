@@ -41,6 +41,13 @@ subprocess.call([
 correct_pages_count = ((((end_page_number - start_page_number) + 1) // 8) + 1) * 8
 white_pages_count = correct_pages_count - end_page_number
 
+## create a blank pdf file
+create_blank_pdf_command = "convert xc:none -page Letter blank.pdf"
+subprocess.call([
+    create_blank_pdf_command,
+    ], shell=True)
+
+
 ## add n white pages to pdf
 ## example command: pdftk A=in.pdf B=blank.pdf cat A1-end B B B output out.pdf
 B = "B " * white_pages_count
