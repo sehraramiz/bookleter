@@ -57,7 +57,7 @@ subprocess.call([
 ## add n white pages to pdf
 ## example command: pdftk A=in.pdf B=blank.pdf cat A1-end B B B output out.pdf
 B = "B " * white_pages_count
-add_white_pages_command = "pdftk A={} B={} cat A1-end {} output {}".format(blank_pdf_name, pickout_pages_pdf_name, B, blanked_pdf_name)
+add_white_pages_command = "pdftk A={} B={} cat A1-end {} output {}".format(pickout_pages_pdf_name, blank_pdf_name, B, blanked_pdf_name)
 subprocess.call([
     add_white_pages_command,
     ], shell=True)
