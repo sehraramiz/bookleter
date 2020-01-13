@@ -20,8 +20,10 @@ pathlib.Path(temp_path).mkdir(parents=True, exist_ok=True)
 original_pdf_name = sys.argv[1]
 margined_pdf_name = temp_path + original_pdf_name.replace(".pdf", "_margined.pdf")
 pickout_pages_pdf_name = margined_pdf_name.replace(".pdf", "_{}_{}.pdf".format(start_page_number, end_page_number))
+pickout_test_pages_pdf_name = margined_pdf_name.replace(".pdf", "_{}_{}.pdf".format(1, 8))
 blanked_pdf_name = pickout_pages_pdf_name.replace(".pdf", "_blanked.pdf")
 final_pdf_name = original_pdf_name.replace(".pdf", "_print_this.pdf")
+test_pdf_name = "print_this_for_test.pdf"
 blank_pdf_name = temp_path + "/blank.pdf"
 
 ## set margin or crop
@@ -66,6 +68,23 @@ subprocess.call([
 ## get final shuffled pdf with 128 pages and get output
 ## example command:  ~/go/bin/a6-booklet-on-a4 -in in.pdf -out out.pdf -pages 128
 get_final_booklet_pdf_command = "~/go/bin/a6-booklet-on-a4 -in {} -out {} -pages {}".format(blanked_pdf_name, final_pdf_name,correct_pages_count)
+pdftk_shuffle_command = subprocess.check_output([
+    get_final_booklet_pdf_command,
+    ], shell=True).decode().replace("\n", "")
+
+subprocess.call([
+    pdftk_shuffle_command,
+    ], shell=True)
+
+
+## create a 8 page pdf for testing the printer device and print method before printing big chunks of paper
+## extract pages 1 to 8 for 8 page test
+pickout_test_pages_command = "pdftk {} cat {}-{} output {}".format(margined_pdf_name, 1, 8, pickout_test_pages_pdf_name)
+subprocess.call([
+    pickout_pages_command,
+    ], shell=True)
+
+get_final_booklet_pdf_command = "~/go/bin/a6-booklet-on-a4 -in {} -out {} -pages {}".format(blanked_pdf_name, test_pdf_name, 8)
 pdftk_shuffle_command = subprocess.check_output([
     get_final_booklet_pdf_command,
     ], shell=True).decode().replace("\n", "")
