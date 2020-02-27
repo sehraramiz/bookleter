@@ -29,11 +29,12 @@ blank_pdf_name = temp_path + "/blank.pdf"
 ## set margin or crop
 ## '10 7 10 7' --> 'left top right bottom'
 ## example command: pdfcrop in.pdf out.pdf --margins '10 7 10 7'
-margin_command = "pdfcrop {} {}".format(original_pdf_name, margined_pdf_name)
+## FIXME margin command option is not working
+margin_command = "pdfcrop {} {} --margins '7 7 7 7'".format(original_pdf_name, margined_pdf_name)
 margin_command_options = "--margins '10 7 10 7'" 
 subprocess.call([
     margin_command,
-    margin_command_options
+    # margin_command_options
     ], shell=True)
 
 
