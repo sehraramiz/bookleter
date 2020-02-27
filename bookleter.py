@@ -4,8 +4,8 @@ import subprocess, sys, pathlib
 from tools import pickout_pages, reverse_pages_order, make_booklet
 
 
-if len(sys.argv) < 3:
-        print("error")
+if len(sys.argv) < 4:
+        print("missing some arguments")
         sys.exit()
 if sys.argv[1][-4:] == ".pdf":
     print(sys.argv)
