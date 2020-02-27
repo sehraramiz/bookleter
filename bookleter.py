@@ -1,7 +1,8 @@
 #!/bin/python3
 
 import subprocess, sys, pathlib
-from four_in_one import foop
+from tools import pickout_pages, reverse_pages_order, make_booklet
+
 
 if len(sys.argv) < 3:
         print("error")
@@ -39,20 +40,15 @@ subprocess.call([
     # margin_command_options
     ], shell=True)
 
-
-## extract pages 1 to 109
-## example command: pdftk in.pdf cat 1-109 output out.pdf
-pickout_pages_command = "pdftk {} cat {}-{} output {}".format(margined_pdf_name, start_page_number, end_page_number, pickout_pages_pdf_name)
-subprocess.call([
-    pickout_pages_command,
-    ], shell=True)
+# pickout only desired pages from original pdf
+pickout_pages(margined_pdf_name, start_page_number, end_page_number, pickout_pages_pdf_name)
 
 
 ## calc pdf pages
 if end_page_number % 8 == 0:
     correct_pages_count = end_page_number
 else:
-correct_pages_count = ((((end_page_number - start_page_number) + 1) // 8) + 1) * 8
+    correct_pages_count = ((((end_page_number - start_page_number) + 1) // 8) + 1) * 8
 white_pages_count = correct_pages_count - end_page_number
 
 ## create a blank pdf file
@@ -65,57 +61,28 @@ subprocess.call([
 ## add n white pages to pdf
 ## example command: pdftk A=in.pdf B=blank.pdf cat A1-end B B B output out.pdf
 if white_pages_count:
-B = "B " * white_pages_count
-add_white_pages_command = "pdftk A={} B={} cat A1-end {} output {}".format(pickout_pages_pdf_name, blank_pdf_name, B, blanked_pdf_name)
-subprocess.call([
-    add_white_pages_command,
-    ], shell=True)
+    B = "B " * white_pages_count
+    add_white_pages_command = "pdftk A={} B={} cat A1-end {} output {}".format(pickout_pages_pdf_name, blank_pdf_name, B, blanked_pdf_name)
+    subprocess.call([
+        add_white_pages_command,
+        ], shell=True)
 else:
     blanked_pdf_name = pickout_pages_pdf_name
 
 
 ## TODO get pdf language from input
-## reverse pdf pages order for rtl languages FIXME
-reverse_pages_order_command = "pdftk {} cat end-1 output {}".format(blanked_pdf_name, reversed_blanked_pdf_name)
-subprocess.call([
-    reverse_pages_order_command,
-    ], shell=True)
-
-
+reverse_pages_order(blanked_pdf_name, reversed_blanked_pdf_name)
 
 ## get final shuffled pdf with 128 pages and get output
-get_final_booklet_pdf_command = foop(reversed_blanked_pdf_name, final_pdf_name, correct_pages_count)
-pdftk_shuffle_command = subprocess.check_output([
-    get_final_booklet_pdf_command,
-    ], shell=True).decode().replace("\n", "")
-
-subprocess.call([
-    pdftk_shuffle_command,
-    ], shell=True)
-
+make_booklet(reversed_blanked_pdf_name, final_pdf_name, correct_pages_count)
 
 ## create a 8 page pdf for testing the printer device and print method before printing big chunks of paper
 ## extract pages 1 to 8 for 8 page test
-pickout_test_pages_command = "pdftk {} cat {}-{} output {}".format(margined_pdf_name, 1, 8, pickout_test_pages_pdf_name)
-subprocess.call([
-    pickout_test_pages_command,
-    ], shell=True)
+pickout_pages(margined_pdf_name, 1, 8, pickout_test_pages_pdf_name)
 
-## TODO get pdf language from input
-## reverse pdf pages order for rtl languages FIXME
-reverse_pages_order_command = "pdftk {} cat end-1 output {}".format(pickout_test_pages_pdf_name, reversed_pickout_test_pages_pdf_name)
-subprocess.call([
-    reverse_pages_order_command,
-    ], shell=True)
+reverse_pages_order(pickout_test_pages_pdf_name, reversed_pickout_test_pages_pdf_name)
 
-get_final_booklet_pdf_command = foop(reversed_pickout_test_pages_pdf_name, test_pdf_name, 8)
-pdftk_shuffle_command = subprocess.check_output([
-    get_final_booklet_pdf_command,
-    ], shell=True).decode().replace("\n", "")
-
-subprocess.call([
-    pdftk_shuffle_command,
-    ], shell=True)
+make_booklet(reversed_pickout_test_pages_pdf_name, test_pdf_name, 8)
 
 
 ## Cleanup
