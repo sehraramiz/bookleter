@@ -18,6 +18,7 @@ current_path = pathlib.Path.cwd()
 temp_path = str(current_path) + "/tmp/"
 pathlib.Path(temp_path).mkdir(parents=True, exist_ok=True)
 
+# not very important file names
 original_pdf_name = sys.argv[1]
 margined_pdf_name = temp_path + original_pdf_name.replace(".pdf", "_margined.pdf")
 pickout_pages_pdf_name = margined_pdf_name.replace(".pdf", "_{}_{}.pdf".format(start_page_number, end_page_number))
@@ -25,6 +26,7 @@ pickout_test_pages_pdf_name = margined_pdf_name.replace(".pdf", "_{}_{}.pdf".for
 reversed_pickout_test_pages_pdf_name = pickout_test_pages_pdf_name.replace(".pdf", "_reversed.pdf")
 blanked_pdf_name = pickout_pages_pdf_name.replace(".pdf", "_blanked.pdf")
 reversed_blanked_pdf_name = blanked_pdf_name.replace(".pdf", "_reversed.pdf")
+blank_pdf_name = temp_path + "/blank.pdf"
 final_pdf_name = original_pdf_name.replace(".pdf", "_print_this.pdf")
 test_pdf_name = final_pdf_name.replace(".pdf", "_for_test.pdf")
 blank_pdf_name = temp_path + "/blank.pdf"
