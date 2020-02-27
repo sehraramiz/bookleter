@@ -21,7 +21,9 @@ original_pdf_name = sys.argv[1]
 margined_pdf_name = temp_path + original_pdf_name.replace(".pdf", "_margined.pdf")
 pickout_pages_pdf_name = margined_pdf_name.replace(".pdf", "_{}_{}.pdf".format(start_page_number, end_page_number))
 pickout_test_pages_pdf_name = margined_pdf_name.replace(".pdf", "_{}_{}.pdf".format(1, 8))
+reversed_pickout_test_pages_pdf_name = pickout_test_pages_pdf_name.replace(".pdf", "_reversed.pdf")
 blanked_pdf_name = pickout_pages_pdf_name.replace(".pdf", "_blanked.pdf")
+reversed_blanked_pdf_name = blanked_pdf_name.replace(".pdf", "_reversed.pdf")
 final_pdf_name = original_pdf_name.replace(".pdf", "_print_this.pdf")
 test_pdf_name = final_pdf_name.replace(".pdf", "_for_test.pdf")
 blank_pdf_name = temp_path + "/blank.pdf"
@@ -72,6 +74,14 @@ else:
     blanked_pdf_name = pickout_pages_pdf_name
 
 
+## TODO get pdf language from input
+## reverse pdf pages order for rtl languages FIXME
+reverse_pages_order_command = "pdftk {} cat end-1 output {}".format(blanked_pdf_name, reversed_blanked_pdf_name)
+subprocess.call([
+    reverse_pages_order_command,
+    ], shell=True)
+
+
 
 ## get final shuffled pdf with 128 pages and get output
 ## example command:  ~/go/bin/a6-booklet-on-a4 -in in.pdf -out out.pdf -pages 128
@@ -91,6 +101,12 @@ pickout_test_pages_command = "pdftk {} cat {}-{} output {}".format(margined_pdf_
 subprocess.call([
     pickout_test_pages_command,
     ], shell=True)
+
+## TODO get pdf language from input
+## reverse pdf pages order for rtl languages FIXME
+reverse_pages_order_command = "pdftk {} cat end-1 output {}".format(pickout_test_pages_pdf_name, reversed_pickout_test_pages_pdf_name)
+subprocess.call([
+    reverse_pages_order_command,
     ], shell=True)
 
 get_final_booklet_pdf_command = "~/go/bin/a6-booklet-on-a4 -in {} -out {} -pages {}".format(blanked_pdf_name, test_pdf_name, 8)
