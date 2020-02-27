@@ -4,7 +4,7 @@ import subprocess, sys, pathlib
 from tools import pickout_pages, reverse_pages_order, make_booklet
 
 
-if len(sys.argv) < 4:
+if len(sys.argv) < 5:
         print("missing some arguments")
         sys.exit()
 if sys.argv[1][-4:] == ".pdf":
@@ -15,6 +15,8 @@ start_page_number = int(sys.argv[2].split("-")[0])
 end_page_number = int(sys.argv[2].split("-")[1])
 
 book_direction = sys.argv[3]
+
+margins = sys.argv[4]
 
 current_path = pathlib.Path.cwd()
 temp_path = str(current_path) + "/tmp/"
@@ -35,9 +37,7 @@ test_pdf_name = final_pdf_name.replace(".pdf", "_for_test.pdf")
 ## set margin or crop
 ## '10 7 10 7' --> 'left top right bottom'
 ## example command: pdfcrop in.pdf out.pdf --margins '10 7 10 7'
-## FIXME margin command option is not working
-margin_command = "pdfcrop {} {} --margins '7 7 7 7'".format(original_pdf_name, margined_pdf_name)
-margin_command_options = "--margins '10 7 10 7'" 
+margin_command = "pdfcrop {} {} --margins '{}'".format(original_pdf_name, margined_pdf_name, margins)
 subprocess.call([
     margin_command,
     # margin_command_options
