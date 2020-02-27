@@ -84,8 +84,7 @@ subprocess.call([
 
 
 ## get final shuffled pdf with 128 pages and get output
-## example command:  ~/go/bin/a6-booklet-on-a4 -in in.pdf -out out.pdf -pages 128
-get_final_booklet_pdf_command = "~/go/bin/a6-booklet-on-a4 -in {} -out {} -pages {}".format(blanked_pdf_name, final_pdf_name,correct_pages_count)
+get_final_booklet_pdf_command = foop(reversed_blanked_pdf_name, final_pdf_name, correct_pages_count)
 pdftk_shuffle_command = subprocess.check_output([
     get_final_booklet_pdf_command,
     ], shell=True).decode().replace("\n", "")
@@ -109,7 +108,7 @@ subprocess.call([
     reverse_pages_order_command,
     ], shell=True)
 
-get_final_booklet_pdf_command = "~/go/bin/a6-booklet-on-a4 -in {} -out {} -pages {}".format(blanked_pdf_name, test_pdf_name, 8)
+get_final_booklet_pdf_command = foop(reversed_pickout_test_pages_pdf_name, test_pdf_name, 8)
 pdftk_shuffle_command = subprocess.check_output([
     get_final_booklet_pdf_command,
     ], shell=True).decode().replace("\n", "")
