@@ -31,7 +31,6 @@ reversed_blanked_pdf_name = blanked_pdf_name.replace(".pdf", "_reversed.pdf")
 blank_pdf_name = temp_path + "/blank.pdf"
 final_pdf_name = original_pdf_name.replace(".pdf", "_print_this.pdf")
 test_pdf_name = final_pdf_name.replace(".pdf", "_for_test.pdf")
-blank_pdf_name = temp_path + "/blank.pdf"
 
 ## set margin or crop
 ## '10 7 10 7' --> 'left top right bottom'
@@ -74,9 +73,8 @@ else:
     blanked_pdf_name = pickout_pages_pdf_name
 
 
-## TODO get pdf language from input
 if book_direction == "rtl":
-reverse_pages_order(blanked_pdf_name, reversed_blanked_pdf_name)
+    reverse_pages_order(blanked_pdf_name, reversed_blanked_pdf_name)
 
 ## get final shuffled pdf with 128 pages and get output
 make_booklet(reversed_blanked_pdf_name, final_pdf_name, correct_pages_count)
@@ -86,7 +84,7 @@ make_booklet(reversed_blanked_pdf_name, final_pdf_name, correct_pages_count)
 pickout_pages(margined_pdf_name, 1, 8, pickout_test_pages_pdf_name)
 
 if book_direction == "rtl":
-reverse_pages_order(pickout_test_pages_pdf_name, reversed_pickout_test_pages_pdf_name)
+    reverse_pages_order(pickout_test_pages_pdf_name, reversed_pickout_test_pages_pdf_name)
 
 make_booklet(reversed_pickout_test_pages_pdf_name, test_pdf_name, 8)
 
