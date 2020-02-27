@@ -14,6 +14,8 @@ if sys.argv[1][-4:] == ".pdf":
 start_page_number = int(sys.argv[2].split("-")[0])
 end_page_number = int(sys.argv[2].split("-")[1])
 
+book_direction = sys.argv[3]
+
 current_path = pathlib.Path.cwd()
 temp_path = str(current_path) + "/tmp/"
 pathlib.Path(temp_path).mkdir(parents=True, exist_ok=True)
@@ -73,6 +75,7 @@ else:
 
 
 ## TODO get pdf language from input
+if book_direction == "rtl":
 reverse_pages_order(blanked_pdf_name, reversed_blanked_pdf_name)
 
 ## get final shuffled pdf with 128 pages and get output
@@ -82,6 +85,7 @@ make_booklet(reversed_blanked_pdf_name, final_pdf_name, correct_pages_count)
 ## extract pages 1 to 8 for 8 page test
 pickout_pages(margined_pdf_name, 1, 8, pickout_test_pages_pdf_name)
 
+if book_direction == "rtl":
 reverse_pages_order(pickout_test_pages_pdf_name, reversed_pickout_test_pages_pdf_name)
 
 make_booklet(reversed_pickout_test_pages_pdf_name, test_pdf_name, 8)
