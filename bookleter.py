@@ -4,8 +4,11 @@ import subprocess, sys, pathlib
 from tools import pickout_pages, reverse_pages_order, make_booklet
 
 
+example_usage_command = "$ bookleter.py my_book.pdf 1-30 rtl '5 5 5 5'"
+
 if len(sys.argv) < 5:
-        print("missing some arguments")
+        print("Error!! missing some arguments\nuse it like this:")
+        print(example_usage_command)
         sys.exit()
 if sys.argv[1][-4:] == ".pdf":
     print(sys.argv)
