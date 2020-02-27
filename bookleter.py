@@ -1,7 +1,7 @@
 #!/bin/python3
 
 import subprocess, sys, pathlib
-
+from four_in_one import foop
 
 if len(sys.argv) < 3:
         print("error")
