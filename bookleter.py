@@ -47,6 +47,9 @@ subprocess.call([
 
 
 ## calc pdf pages
+if end_page_number % 8 == 0:
+    correct_pages_count = end_page_number
+else:
 correct_pages_count = ((((end_page_number - start_page_number) + 1) // 8) + 1) * 8
 white_pages_count = correct_pages_count - end_page_number
 
@@ -59,11 +62,15 @@ subprocess.call([
 
 ## add n white pages to pdf
 ## example command: pdftk A=in.pdf B=blank.pdf cat A1-end B B B output out.pdf
+if white_pages_count:
 B = "B " * white_pages_count
 add_white_pages_command = "pdftk A={} B={} cat A1-end {} output {}".format(pickout_pages_pdf_name, blank_pdf_name, B, blanked_pdf_name)
 subprocess.call([
     add_white_pages_command,
     ], shell=True)
+else:
+    blanked_pdf_name = pickout_pages_pdf_name
+
 
 
 ## get final shuffled pdf with 128 pages and get output
