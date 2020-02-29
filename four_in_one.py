@@ -89,4 +89,6 @@ def foop(in_pdf_name, out_pdf_name, pages_count):
     for page_number in print_order:
         cat_command += " A" + str(page_number)
 
+    # the output is a pdftk command that shuffles pdf pages
+    # example output -> pdftk A=pdf_name.pdf cat A2 A15 A6 A11 A16 A1 A12 A5 A4 A13 A8 A9 A14 A3 A10 A7 output output.pdf
     return "pdftk A={} cat{} output {}".format(in_pdf_name, cat_command, out_pdf_name)
