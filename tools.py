@@ -1,5 +1,6 @@
 import subprocess
 from shuffle import foop
+from shutil import which
 
 
 def pickout_pages(input_pdf_name, start_page_number, end_page_number, output_pdf_name):
@@ -51,3 +52,10 @@ def make_booklet(input_pdf_name, output_pdf_name, pages_count):
     subprocess.call([
         pdftk_shuffle_command,
         ], shell=True)
+
+def check_requirments():
+    requirments = ["pdftk", "pdfcropp"]
+    for req in requirments:
+        if not which(req):
+            raise ValueError("you have to install {} on your system".format(req))
+    

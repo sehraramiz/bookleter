@@ -1,7 +1,7 @@
 #!/bin/python3
 
 import subprocess, sys, pathlib
-from tools import pickout_pages, reverse_pages_order, make_booklet, set_margin_crop, create_blank_pdf, calc_pdf_pages
+from tools import pickout_pages, reverse_pages_order, make_booklet, set_margin_crop, create_blank_pdf, calc_pdf_pages, check_requirments
 
 
 example_usage_command = "$ bookleter.py my_book.pdf 1-30 rtl '5 5 5 5'"
@@ -18,6 +18,8 @@ if len(sys.argv) < 5:
 if sys.argv[1][-4:] == ".pdf":
     print(sys.argv)
 
+# check if user has the needed software
+check_requirments()
 
 start_page_number = int(sys.argv[2].split("-")[0])
 end_page_number = int(sys.argv[2].split("-")[1])
