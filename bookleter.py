@@ -54,6 +54,8 @@ subprocess.call([
 # pickout only desired pages from original pdf
 pickout_pages(margined_pdf_name, start_page_number, end_page_number, pickout_pages_pdf_name)
 
+end_page_number = (end_page_number - start_page_number) + 1
+start_page_number = 1
 
 ## calc pdf pages
 if end_page_number % 8 == 0:
