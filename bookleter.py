@@ -1,7 +1,7 @@
 #!/bin/python3
 
 import subprocess, sys, pathlib
-from tools import pickout_pages, reverse_pages_order, make_booklet
+from tools import pickout_pages, reverse_pages_order, make_booklet, set_margin_crop, create_blank_pdf, calc_pdf_pages
 
 
 example_usage_command = "$ bookleter.py my_book.pdf 1-30 rtl '5 5 5 5'"
@@ -38,18 +38,11 @@ pickout_test_pages_pdf_name = margined_pdf_name.replace(".pdf", "_{}_{}.pdf".for
 reversed_pickout_test_pages_pdf_name = pickout_test_pages_pdf_name.replace(".pdf", "_reversed.pdf")
 blanked_pdf_name = pickout_pages_pdf_name.replace(".pdf", "_blanked.pdf")
 reversed_blanked_pdf_name = blanked_pdf_name.replace(".pdf", "_reversed.pdf")
-blank_pdf_name = temp_path + "/blank.pdf"
+blank_pdf_name = temp_path + "blank.pdf"
 final_pdf_name = original_pdf_name.replace(".pdf", "_print_this.pdf")
 test_pdf_name = final_pdf_name.replace(".pdf", "_for_test.pdf")
 
-## set margin or crop
-## '10 7 10 7' --> 'left top right bottom'
-## example command: pdfcrop in.pdf out.pdf --margins '10 7 10 7'
-margin_command = "pdfcrop {} {} --margins '{}'".format(original_pdf_name, margined_pdf_name, margins)
-subprocess.call([
-    margin_command,
-    # margin_command_options
-    ], shell=True)
+set_margin_crop(original_pdf_name, margined_pdf_name, margins)
 
 # pickout only desired pages from original pdf
 pickout_pages(margined_pdf_name, start_page_number, end_page_number, pickout_pages_pdf_name)
@@ -57,12 +50,8 @@ pickout_pages(margined_pdf_name, start_page_number, end_page_number, pickout_pag
 end_page_number = (end_page_number - start_page_number) + 1
 start_page_number = 1
 
-## calc pdf pages
-if end_page_number % 8 == 0:
-    correct_pages_count = end_page_number
-else:
-    correct_pages_count = ((((end_page_number - start_page_number) + 1) // 8) + 1) * 8
-white_pages_count = correct_pages_count - end_page_number
+correct_pages_count, white_pages_count = calc_pdf_pages(start_page_number, end_page_number)
+create_blank_pdf(blank_pdf_name)
 
 ## create a blank pdf file
 create_blank_pdf_command = "convert xc:none -page Letter {}".format(blank_pdf_name)
