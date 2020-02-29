@@ -83,7 +83,7 @@ if book_direction == "rtl":
 make_booklet(reversed_pickout_test_pages_pdf_name, test_pdf_name, 8)
 
 
-## Cleanup
+## Cleanup temp files
 cleanup_command = "rm -r {}".format(temp_path)
 subprocess.call([
     cleanup_command,

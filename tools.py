@@ -54,7 +54,7 @@ def make_booklet(input_pdf_name, output_pdf_name, pages_count):
         ], shell=True)
 
 def check_requirments():
-    requirments = ["pdftk", "pdfcropp"]
+    requirments = ["pdftk", "pdfcrop"]
     for req in requirments:
         if not which(req):
             raise ValueError("you have to install {} on your system".format(req))
