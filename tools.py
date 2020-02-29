@@ -1,5 +1,5 @@
 import subprocess
-from four_in_one import foop
+from shuffle import foop
 
 
 def pickout_pages(input_pdf_name, start_page_number, end_page_number, output_pdf_name):
