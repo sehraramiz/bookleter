@@ -6,6 +6,11 @@ from tools import pickout_pages, reverse_pages_order, make_booklet
 
 example_usage_command = "$ bookleter.py my_book.pdf 1-30 rtl '5 5 5 5'"
 
+example_usage_command = """
+    $ bookleter.py my_book.pdf 1-30 rtl '5 5 5 5'
+    $ bookleter.py [pdfname] [start_page-end_page] [direction: rtl ltr] [margins: 'left top right bottom']
+"""
+
 if len(sys.argv) < 5:
         print("Error!! missing some arguments\nuse it like this:")
         print(example_usage_command)
