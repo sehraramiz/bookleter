@@ -55,13 +55,6 @@ start_page_number = 1
 correct_pages_count, white_pages_count = calc_pdf_pages(start_page_number, end_page_number)
 create_blank_pdf(blank_pdf_name)
 
-## create a blank pdf file
-create_blank_pdf_command = "convert xc:none -page Letter {}".format(blank_pdf_name)
-subprocess.call([
-    create_blank_pdf_command,
-    ], shell=True)
-
-
 ## add n white pages to pdf
 ## example command: pdftk A=in.pdf B=blank.pdf cat A1-end B B B output out.pdf
 if white_pages_count:
