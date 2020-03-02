@@ -5,7 +5,6 @@ from shuffle import foop
 from pytools import pickout_pages as pick, append_blank_pages, reverse_pages_order as reverse, shuffle_pdf as shuffle, calc_pdf_pages
 from tools import set_margin_crop, check_requirments
 
-example_usage_command = "$ bookleter.py my_book.pdf 1-30 rtl '5 5 5 5'"
 
 example_usage_command = """
     $ bookleter.py my_book.pdf 1-30 rtl '5 5 5 5'
@@ -64,7 +63,6 @@ else:
 if book_direction == "rtl":
     reverse(blanked_pdf_name, reversed_blanked_pdf_name)
 
-## get final shuffled pdf with 128 pages and get output
 print_order = foop(reversed_blanked_pdf_name, final_pdf_name, correct_pages_count)
 shuffle(reversed_blanked_pdf_name, final_pdf_name, print_order)
 
