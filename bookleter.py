@@ -5,7 +5,6 @@ from shuffle import foop
 from tools import pickout_pages, reverse_pages_order, make_booklet, set_margin_crop, create_blank_pdf, calc_pdf_pages, check_requirments
 from pytools import pickout_pages as pick, append_blank_pages, reverse_pages_order as reverse, shuffle_pdf as shuffle
 
-
 example_usage_command = "$ bookleter.py my_book.pdf 1-30 rtl '5 5 5 5'"
 
 example_usage_command = """
@@ -47,54 +46,37 @@ blank_pdf_name = temp_path + "blank.pdf"
 final_pdf_name = original_pdf_name.replace(".pdf", "_print_this.pdf")
 test_pdf_name = final_pdf_name.replace(".pdf", "_for_test.pdf")
 
-
 set_margin_crop(original_pdf_name, margined_pdf_name, margins)
 
 # # pickout only desired pages from original pdf
-# pickout_pages(margined_pdf_name, start_page_number, end_page_number, pickout_pages_pdf_name)
 pick(margined_pdf_name, pickout_pages_pdf_name, start_page_number, end_page_number)
 
 end_page_number = (end_page_number - start_page_number) + 1
 start_page_number = 1
 
 correct_pages_count, blank_pages_count = calc_pdf_pages(start_page_number, end_page_number)
-# create_blank_pdf(blank_pdf_name)
 
-## add n white pages to pdf
-## example command: pdftk A=in.pdf B=blank.pdf cat A1-end B B B output out.pdf
 if blank_pages_count:
-    # B = "B " * blank_pages_count
-    # add_blank_pages_command = "pdftk A={} B={} cat A1-end {} output {}".format(pickout_pages_pdf_name, blank_pdf_name, B, blanked_pdf_name)
-    # subprocess.call([
-    #     add_blank_pages_command,
-    #     ], shell=True)
-    
     append_blank_pages(pickout_pages_pdf_name, blanked_pdf_name, blank_pages_count)
 else:
     blanked_pdf_name = pickout_pages_pdf_name
 
-
 if book_direction == "rtl":
-    # reverse_pages_order(blanked_pdf_name, reversed_blanked_pdf_name)
     reverse(blanked_pdf_name, reversed_blanked_pdf_name)
 
 ## get final shuffled pdf with 128 pages and get output
 print_order = foop(reversed_blanked_pdf_name, final_pdf_name, correct_pages_count)
 shuffle(reversed_blanked_pdf_name, final_pdf_name, print_order)
-# make_booklet(reversed_blanked_pdf_name, final_pdf_name, correct_pages_count)
 
 ## create a 8 page pdf for testing the printer device and print method before printing big chunks of paper
 ## extract pages 1 to 8 for 8 page test
-# pickout_pages(margined_pdf_name, 1, 8, pickout_test_pages_pdf_name)
 pick(margined_pdf_name, pickout_test_pages_pdf_name, 1, 8)
 
 if book_direction == "rtl":
-    # reverse_pages_order(pickout_test_pages_pdf_name, reversed_pickout_test_pages_pdf_name)
     reverse(pickout_test_pages_pdf_name, reversed_pickout_test_pages_pdf_name)
 
 print_order = foop(reversed_pickout_test_pages_pdf_name, test_pdf_name, 8)
 shuffle(reversed_pickout_test_pages_pdf_name, test_pdf_name, print_order)
-# make_booklet(reversed_pickout_test_pages_pdf_name, test_pdf_name, 8)
 
 
 ## Cleanup temp files

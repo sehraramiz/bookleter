@@ -1,4 +1,3 @@
-import random
 from PyPDF2 import PdfFileWriter, PdfFileReader
 
 
