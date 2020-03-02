@@ -27,4 +27,13 @@ def reverse_pages_order(input_pdf_name, output_pdf_name):
             output.addPage(page)
         with open(output_pdf_name, "wb") as output_stream:
             output.write(output_stream)
-        output.write(outputStream)
+
+def shuffle_pdf(input_pdf_name, output_pdf_name, ordered_pages):
+    output = PdfFileWriter()
+    inputpdf = PdfFileReader(open(input_pdf_name, "rb"))
+    # pages = range(inputpdf.getNumPages())
+    # random.shuffle(pages)
+    for pg_number in ordered_pages:
+        output.addPage(inputpdf.getPage(pg_number - 1))
+    with open(output_pdf_name, "wb") as output_stream:
+        output.write(output_stream)

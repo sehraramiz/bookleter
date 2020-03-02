@@ -1,8 +1,9 @@
 #!/bin/python3
 
 import subprocess, sys, pathlib
+from shuffle import foop
 from tools import pickout_pages, reverse_pages_order, make_booklet, set_margin_crop, create_blank_pdf, calc_pdf_pages, check_requirments
-from pytools import pickout_pages as pick, append_blank_pages, reverse_pages_order as reverse
+from pytools import pickout_pages as pick, append_blank_pages, reverse_pages_order as reverse, shuffle_pdf as shuffle
 
 
 example_usage_command = "$ bookleter.py my_book.pdf 1-30 rtl '5 5 5 5'"
@@ -78,7 +79,9 @@ if book_direction == "rtl":
     reverse(blanked_pdf_name, reversed_blanked_pdf_name)
 
 ## get final shuffled pdf with 128 pages and get output
-make_booklet(reversed_blanked_pdf_name, final_pdf_name, correct_pages_count)
+print_order = foop(reversed_blanked_pdf_name, final_pdf_name, correct_pages_count)
+shuffle(reversed_blanked_pdf_name, final_pdf_name, print_order)
+# make_booklet(reversed_blanked_pdf_name, final_pdf_name, correct_pages_count)
 
 ## create a 8 page pdf for testing the printer device and print method before printing big chunks of paper
 ## extract pages 1 to 8 for 8 page test
@@ -87,7 +90,9 @@ pickout_pages(margined_pdf_name, 1, 8, pickout_test_pages_pdf_name)
 if book_direction == "rtl":
     reverse_pages_order(pickout_test_pages_pdf_name, reversed_pickout_test_pages_pdf_name)
 
-make_booklet(reversed_pickout_test_pages_pdf_name, test_pdf_name, 8)
+print_order = foop(reversed_pickout_test_pages_pdf_name, test_pdf_name, 8)
+shuffle(reversed_pickout_test_pages_pdf_name, test_pdf_name, print_order)
+# make_booklet(reversed_pickout_test_pages_pdf_name, test_pdf_name, 8)
 
 
 ## Cleanup temp files
