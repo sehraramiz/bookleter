@@ -2,6 +2,7 @@
 
 import subprocess, sys, pathlib
 from tools import pickout_pages, reverse_pages_order, make_booklet, set_margin_crop, create_blank_pdf, calc_pdf_pages, check_requirments
+from pytools import pickout_pages as pick, append_blank_pages
 
 
 example_usage_command = "$ bookleter.py my_book.pdf 1-30 rtl '5 5 5 5'"
@@ -55,17 +56,19 @@ pick(margined_pdf_name, pickout_pages_pdf_name, start_page_number, end_page_numb
 end_page_number = (end_page_number - start_page_number) + 1
 start_page_number = 1
 
-correct_pages_count, white_pages_count = calc_pdf_pages(start_page_number, end_page_number)
-create_blank_pdf(blank_pdf_name)
+correct_pages_count, blank_pages_count = calc_pdf_pages(start_page_number, end_page_number)
+# create_blank_pdf(blank_pdf_name)
 
 ## add n white pages to pdf
 ## example command: pdftk A=in.pdf B=blank.pdf cat A1-end B B B output out.pdf
-if white_pages_count:
-    B = "B " * white_pages_count
-    add_white_pages_command = "pdftk A={} B={} cat A1-end {} output {}".format(pickout_pages_pdf_name, blank_pdf_name, B, blanked_pdf_name)
-    subprocess.call([
-        add_white_pages_command,
-        ], shell=True)
+if blank_pages_count:
+    # B = "B " * blank_pages_count
+    # add_blank_pages_command = "pdftk A={} B={} cat A1-end {} output {}".format(pickout_pages_pdf_name, blank_pdf_name, B, blanked_pdf_name)
+    # subprocess.call([
+    #     add_blank_pages_command,
+    #     ], shell=True)
+    
+    append_blank_pages(pickout_pages_pdf_name, blanked_pdf_name, blank_pages_count)
 else:
     blanked_pdf_name = pickout_pages_pdf_name
 

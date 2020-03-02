@@ -8,3 +8,12 @@ def pickout_pages(input_pdf_name, output_pdf_name, start_page_number, end_page_n
         output.addPage(inputpdf.getPage(pg_number))
     with open(output_pdf_name, "wb") as outputStream:
         output.write(outputStream)
+
+def append_blank_pages(input_pdf_name, output_pdf_name, blanK_pages_count):
+    inputpdf = PdfFileReader(open(input_pdf_name, "rb"))
+    output = PdfFileWriter()
+    output.appendPagesFromReader(inputpdf)
+    for i in range(blanK_pages_count):
+        output.addBlankPage()
+    with open(output_pdf_name, "wb") as outputStream:
+        output.write(outputStream)
