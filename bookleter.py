@@ -85,10 +85,12 @@ shuffle(reversed_blanked_pdf_name, final_pdf_name, print_order)
 
 ## create a 8 page pdf for testing the printer device and print method before printing big chunks of paper
 ## extract pages 1 to 8 for 8 page test
-pickout_pages(margined_pdf_name, 1, 8, pickout_test_pages_pdf_name)
+# pickout_pages(margined_pdf_name, 1, 8, pickout_test_pages_pdf_name)
+pick(margined_pdf_name, pickout_test_pages_pdf_name, 1, 8)
 
 if book_direction == "rtl":
-    reverse_pages_order(pickout_test_pages_pdf_name, reversed_pickout_test_pages_pdf_name)
+    # reverse_pages_order(pickout_test_pages_pdf_name, reversed_pickout_test_pages_pdf_name)
+    reverse(pickout_test_pages_pdf_name, reversed_pickout_test_pages_pdf_name)
 
 print_order = foop(reversed_pickout_test_pages_pdf_name, test_pdf_name, 8)
 shuffle(reversed_pickout_test_pages_pdf_name, test_pdf_name, print_order)
