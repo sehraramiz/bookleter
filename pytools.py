@@ -36,3 +36,11 @@ def shuffle_pdf(input_pdf_name, output_pdf_name, ordered_pages):
         output.addPage(inputpdf.getPage(pg_number - 1))
     with open(output_pdf_name, "wb") as output_stream:
         output.write(output_stream)
+
+def calc_pdf_pages(start_page_number, end_page_number):
+    if end_page_number % 8 == 0:
+        correct_pages_count = end_page_number
+    else:
+        correct_pages_count = ((((end_page_number - start_page_number) + 1) // 8) + 1) * 8
+    white_pages_count = correct_pages_count - end_page_number
+    return correct_pages_count, white_pages_count
