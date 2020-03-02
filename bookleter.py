@@ -28,12 +28,13 @@ book_direction = sys.argv[3]
 
 margins = sys.argv[4]
 
-current_path = pathlib.Path.cwd()
-temp_path = str(current_path) + "/tmp/"
+current_path = str(pathlib.Path.cwd())
+temp_path = current_path + "/tmp/"
 pathlib.Path(temp_path).mkdir(parents=True, exist_ok=True)
 
 # not very important file names
 original_pdf_name = sys.argv[1]
+original_file_path = current_path + "/" + original_pdf_name 
 margined_pdf_name = temp_path + original_pdf_name.replace(".pdf", "_margined.pdf")
 pickout_pages_pdf_name = margined_pdf_name.replace(".pdf", "_{}_{}.pdf".format(start_page_number, end_page_number))
 pickout_test_pages_pdf_name = margined_pdf_name.replace(".pdf", "_{}_{}.pdf".format(1, 8))
@@ -44,10 +45,12 @@ blank_pdf_name = temp_path + "blank.pdf"
 final_pdf_name = original_pdf_name.replace(".pdf", "_print_this.pdf")
 test_pdf_name = final_pdf_name.replace(".pdf", "_for_test.pdf")
 
+
 set_margin_crop(original_pdf_name, margined_pdf_name, margins)
 
-# pickout only desired pages from original pdf
-pickout_pages(margined_pdf_name, start_page_number, end_page_number, pickout_pages_pdf_name)
+# # pickout only desired pages from original pdf
+# pickout_pages(margined_pdf_name, start_page_number, end_page_number, pickout_pages_pdf_name)
+pick(margined_pdf_name, pickout_pages_pdf_name, start_page_number, end_page_number)
 
 end_page_number = (end_page_number - start_page_number) + 1
 start_page_number = 1
