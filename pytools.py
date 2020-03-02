@@ -18,4 +18,13 @@ def append_blank_pages(input_pdf_name, output_pdf_name, blanK_pages_count):
         output.addBlankPage()
     with open(output_pdf_name, "wb") as output_stream:
         output.write(output_stream)
+
+def reverse_pages_order(input_pdf_name, output_pdf_name):
+    output = PdfFileWriter()
+    with open(input_pdf_name, 'rb') as readfile:
+        inputpdf = PdfFileReader(readfile)
+        for page in reversed(inputpdf.pages):
+            output.addPage(page)
+        with open(output_pdf_name, "wb") as output_stream:
+            output.write(output_stream)
         output.write(outputStream)

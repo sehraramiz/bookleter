@@ -2,7 +2,7 @@
 
 import subprocess, sys, pathlib
 from tools import pickout_pages, reverse_pages_order, make_booklet, set_margin_crop, create_blank_pdf, calc_pdf_pages, check_requirments
-from pytools import pickout_pages as pick, append_blank_pages
+from pytools import pickout_pages as pick, append_blank_pages, reverse_pages_order as reverse
 
 
 example_usage_command = "$ bookleter.py my_book.pdf 1-30 rtl '5 5 5 5'"
@@ -74,7 +74,8 @@ else:
 
 
 if book_direction == "rtl":
-    reverse_pages_order(blanked_pdf_name, reversed_blanked_pdf_name)
+    # reverse_pages_order(blanked_pdf_name, reversed_blanked_pdf_name)
+    reverse(blanked_pdf_name, reversed_blanked_pdf_name)
 
 ## get final shuffled pdf with 128 pages and get output
 make_booklet(reversed_blanked_pdf_name, final_pdf_name, correct_pages_count)
