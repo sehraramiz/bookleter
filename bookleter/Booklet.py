@@ -4,8 +4,6 @@ from PyPDF2 import PdfFileWriter, PdfFileReader
 from shuffle import foop
 
 
-
-
 class Book():
     def __init__(self, input_file_path, start_page_number, end_page_number, direction, margins):
         self.input_file_path = input_file_path
