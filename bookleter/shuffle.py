@@ -32,7 +32,6 @@ def foop(in_pdf_name, out_pdf_name, pages_count):
         cur_page += 1
         a4_sheets[sheet_number]["back"][3] = cur_page
         cur_page += 1
-        # print(a4_sheets)
 
     # vertically rip in half horizontally
     a5_sheets = [{"front": [None for _ in range(2)], "back": [None for _ in range(2)]} for i in range(sheets_count * 2)]
