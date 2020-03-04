@@ -77,9 +77,4 @@ if book_direction == "rtl":
 print_order = foop(reversed_pickout_test_pages_pdf_name, test_pdf_name, 8)
 shuffle(reversed_pickout_test_pages_pdf_name, test_pdf_name, print_order)
 
-
-# Cleanup temp files
-cleanup_command = "rm -r {}".format(temp_path)
-subprocess.call([
-    cleanup_command,
-    ], shell=True)
+shutil.rmtree(temp_path)
