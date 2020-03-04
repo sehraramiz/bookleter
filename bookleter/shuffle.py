@@ -90,12 +90,7 @@ def foop(in_pdf_name, out_pdf_name, pages_count):
 
     # apply translation
     print_order = [None for _ in range(pages_count)]
-    # for index, pg_number
     for index, pg_number in enumerate(book_order):
         print_order[pg_number - 1] = index + 1
-
-    cat_command = ""
-    for page_number in print_order:
-        cat_command += " A" + str(page_number)
 
     return print_order
