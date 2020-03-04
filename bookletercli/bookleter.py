@@ -1,5 +1,3 @@
-#!/bin/python3
-
 import sys
 from pathlib import Path, PurePath
 from Booklet import Book

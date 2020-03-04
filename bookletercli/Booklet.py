@@ -116,7 +116,8 @@ class Book():
         ## set margin or crop
         ## '10 7 10 7' --> 'left top right bottom'
         ## example command: pdfcrop in.pdf out.pdf --margins '10 7 10 7'
-        margin_command = "pdfcrop {} {} --margins '{}'".format(self.original_pdf_name, self.margined_pdf_name, self.margins)
+        print("originaaaaal " + self.original_pdf_path)
+        margin_command = "pdfcrop {} {} --margins '{}'".format(self.original_pdf_path, self.margined_pdf_name, self.margins)
         subprocess.call([
             margin_command,
             ], shell=True)
