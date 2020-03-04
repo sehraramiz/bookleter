@@ -4,7 +4,6 @@ from PyPDF2 import PdfFileWriter, PdfFileReader
 from shuffle import foop
 
 
-logging.basicConfig(level=logging.NOTSET)
 
 
 class Book():
@@ -15,6 +14,8 @@ class Book():
         self.direction = direction
         self.margins = margins
 
+        logging.basicConfig(level=logging.NOTSET)
+        
         self.temp_path = self.input_file_path.parent / 'tmp'
         Path(self.temp_path).mkdir(parents=True, exist_ok=True)
 
