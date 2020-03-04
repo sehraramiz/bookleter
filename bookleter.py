@@ -1,6 +1,7 @@
 #!/bin/python3
 
-import subprocess, sys, pathlib
+import subprocess, sys
+from pathlib import Path, PurePath
 from shuffle import foop
 from pytools import pickout_pages as pick, append_blank_pages, reverse_pages_order as reverse, shuffle_pdf as shuffle, calc_pdf_pages
 from tools import set_margin_crop, check_requirments
@@ -28,22 +29,24 @@ book_direction = sys.argv[3]
 
 margins = sys.argv[4]
 
-current_path = str(pathlib.Path.cwd())
-temp_path = current_path + "/tmp/"
-pathlib.Path(temp_path).mkdir(parents=True, exist_ok=True)
+current_path = Path.cwd()
+file_path = PurePath.joinpath(current_path, sys.argv[1])
+temp_path = file_path.parent / 'tmp'
+Path(temp_path).mkdir(parents=True, exist_ok=True)
 
 # not very important file names
-original_pdf_name = sys.argv[1]
-margined_pdf_name = temp_path + original_pdf_name.replace(".pdf", "_margined.pdf")
+original_pdf_name = file_path.name
+original_pdf_path = str(file_path)
+margined_pdf_name = str(temp_path / original_pdf_name.replace(".pdf", "_margined.pdf"))
 pickout_pages_pdf_name = margined_pdf_name.replace(".pdf", "_{}_{}.pdf".format(start_page_number, end_page_number))
 pickout_test_pages_pdf_name = margined_pdf_name.replace(".pdf", "_{}_{}.pdf".format(1, 8))
 reversed_pickout_test_pages_pdf_name = pickout_test_pages_pdf_name.replace(".pdf", "_reversed.pdf")
 blanked_pdf_name = pickout_pages_pdf_name.replace(".pdf", "_blanked.pdf")
 reversed_blanked_pdf_name = blanked_pdf_name.replace(".pdf", "_reversed.pdf")
-final_pdf_name = original_pdf_name.replace(".pdf", "_print_this.pdf")
+final_pdf_name = original_pdf_path.replace(".pdf", "_print_this.pdf")
 test_pdf_name = final_pdf_name.replace(".pdf", "_for_test.pdf")
 
-set_margin_crop(original_pdf_name, margined_pdf_name, margins)
+set_margin_crop(original_pdf_path, margined_pdf_name, margins)
 
 # pickout only desired pages from original pdf
 pick(margined_pdf_name, pickout_pages_pdf_name, start_page_number, end_page_number)
