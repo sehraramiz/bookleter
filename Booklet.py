@@ -30,6 +30,7 @@ class Book():
         self.test_pdf_name = self.final_pdf_name.replace(".pdf", "_for_test.pdf")
 
     def make_booklet(self):
+        self._check_requirments()
         logging.info("setting  margins...")
         self._set_margin_crop()
         logging.info("picking out desired pages...")
@@ -119,3 +120,10 @@ class Book():
         subprocess.call([
             margin_command,
             ], shell=True)
+    
+    def _check_requirments(self):
+        requirments = ["pdfcrop"]
+        for req in requirments:
+            if not shutil.which(req):
+                raise ValueError("you have to install {} on your system".format(req))
+    
