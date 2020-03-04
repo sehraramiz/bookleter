@@ -1,13 +1,9 @@
-import sys
+import sys, logging
 from pathlib import Path, PurePath
 from .Booklet import Book
 
 def main():
-    print('in main')
-    args = sys.argv[1:]
-    print('count of args :: {}'.format(len(args)))
-    for arg in args:
-        print('passed argument :: {}'.format(arg))
+    logging.basicConfig(level=logging.NOTSET)
 
     example_usage_command = """
         $ bookleter.py my_book.pdf 1-30 rtl '5 5 5 5'
@@ -15,11 +11,8 @@ def main():
     """
 
     if len(sys.argv) < 5:
-            print("Error!! missing some arguments\nuse it like this:")
-            print(example_usage_command)
-            sys.exit()
-    if sys.argv[1][-4:] == ".pdf":
-        print(sys.argv)
+        logging.error("missing some arguments\nuse it like this:\n{}".format(example_usage_command))
+        sys.exit()
 
     start_page_number = int(sys.argv[2].split("-")[0])
     end_page_number = int(sys.argv[2].split("-")[1])

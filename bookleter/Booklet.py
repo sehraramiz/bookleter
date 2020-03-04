@@ -1,7 +1,7 @@
 import logging, subprocess, shutil
 from pathlib import Path
 from PyPDF2 import PdfFileWriter, PdfFileReader
-from shuffle import foop
+from .shuffle import foop
 
 
 class Book():
