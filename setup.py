@@ -1,11 +1,11 @@
 from setuptools import setup
 
 setup(
-    name = 'bookletercli',
+    name = 'bookleter',
     version = '0.1.0',
-    packages = ['bookletercli'],
+    packages = ['bookleter'],
     entry_points = {
         'console_scripts': [
-            'bookletercli = bookletercli.__main__:main'
+            'bookleter = bookleter.__main__:main'
         ]
     })
