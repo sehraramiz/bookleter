@@ -1,4 +1,14 @@
 
+"""
+    Credits
+    This part of the application uses an Open Source component.
+    This function was ported from a go script originally
+    You can find the source code of the open source project along with license information below.
+    i am grateful to this developer for his/her contribution to open source.
+
+    Project: (a6-booklet-on-a4) https://github.com/ERnsTL/a6-booklet-on-a4
+    License (GNU General Public License v3.0) https://www.gnu.org/licenses/gpl-3.0.en.html 
+"""
 
 def foop(in_pdf_name, out_pdf_name, pages_count):
     if pages_count == 0:
