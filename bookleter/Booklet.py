@@ -1,16 +1,17 @@
-import logging, subprocess, shutil
+import logging, shutil, sys
 from pathlib import Path
 from PyPDF2 import PdfFileWriter, PdfFileReader
 from .shuffle import foop
+from pdfCropMargins import pdfCropMargins
 
 
 class Book():
-    def __init__(self, input_file_path, start_page_number, end_page_number, direction, margins):
+    def __init__(self, input_file_path, start_page_number, end_page_number, direction, margin_percentage='10'):
         self.input_file_path = input_file_path
         self.start_page_number = start_page_number
         self.end_page_number = end_page_number
         self.direction = direction
-        self.margins = margins
+        self.margin_percentage = margin_percentage
 
         logging.basicConfig(level=logging.NOTSET)
         
@@ -19,19 +20,18 @@ class Book():
 
         self.original_pdf_name = self.input_file_path.name
         self.original_pdf_path = str(self.input_file_path)
-        self.margined_pdf_name = str(self.temp_path / self.original_pdf_name.replace(".pdf", "_margined.pdf"))
-        self.pickout_pages_pdf_name = self.margined_pdf_name.replace(".pdf", "_{}_{}.pdf".format(start_page_number, end_page_number))
-        self.pickout_test_pages_pdf_name = self.margined_pdf_name.replace(".pdf", "_{}_{}.pdf".format(1, 8))
+        self.basic_temp_pdf_path = str(self.temp_path / self.original_pdf_name)
+        self.pickout_pages_pdf_name = self.basic_temp_pdf_path.replace(".pdf", "_{}_{}.pdf".format(start_page_number, end_page_number))
+        self.pickout_test_pages_pdf_name = self.basic_temp_pdf_path.replace(".pdf", "_{}_{}.pdf".format(1, 8))
         self.reversed_pickout_test_pages_pdf_name = self.pickout_test_pages_pdf_name.replace(".pdf", "_reversed.pdf")
         self.blanked_pdf_name = self.pickout_pages_pdf_name.replace(".pdf", "_blanked.pdf")
         self.reversed_blanked_pdf_name = self.blanked_pdf_name.replace(".pdf", "_reversed.pdf")
+        self.reversed_blanked_shuffled_pdf_name = self.reversed_blanked_pdf_name.replace(".pdf", "_shuffled.pdf")
+        self.reversed_blanked_shuffled_test_pdf_name = self.reversed_blanked_pdf_name.replace(".pdf", "_test_shuffled.pdf")
         self.final_pdf_name = self.original_pdf_path.replace(".pdf", "_print_this.pdf")
         self.test_pdf_name = self.final_pdf_name.replace(".pdf", "_for_test.pdf")
 
     def make_booklet(self):
-        self._check_requirments()
-        logging.info("setting  margins...")
-        self._set_margin_crop()
         logging.info("picking out desired pages...")
         self._pickout_pages(self.start_page_number, self.end_page_number)
 
@@ -53,8 +53,11 @@ class Book():
 
         logging.info("shuffling pages order...\ncreating final pdf...")
         print_order = foop(self.correct_pages_count)
-        self._shuffle_pdf(print_order)
+        self._shuffle_pdf(self.reversed_blanked_shuffled_pdf_name, print_order)
 
+        logging.info("setting  margins...")
+        self._set_margins(self.reversed_blanked_shuffled_pdf_name, self.final_pdf_name)
+        
         logging.info("creating test pdf...")
         self._pickout_pages(1, 8)
 
@@ -62,15 +65,18 @@ class Book():
             self._reverse_pages_order()
 
         print_order = foop(8)
-        self._shuffle_pdf(print_order)
-        
+        self._shuffle_pdf(self.reversed_blanked_shuffled_test_pdf_name, print_order)
+
+        # FIXME cannot use pdfCropMargins 2 times in a row, so test pdf margins are the same as before
+        # self._set_margins(self.reversed_blanked_shuffled_test_pdf_name, self.test_pdf_name)
+
         logging.info("cleaning up...")
         shutil.rmtree(self.temp_path)
 
         logging.info("finished!")
 
     def _pickout_pages(self, start_page_number, end_page_number):
-        inputpdf = PdfFileReader(open(self.margined_pdf_name, "rb"))
+        inputpdf = PdfFileReader(open(self.original_pdf_path, "rb"))
         output = PdfFileWriter()
         for pg_number in range(start_page_number, end_page_number + 1):
             output.addPage(inputpdf.getPage(pg_number))
@@ -95,12 +101,12 @@ class Book():
             with open(self.reversed_blanked_pdf_name, "wb") as output_stream:
                 output.write(output_stream)
 
-    def _shuffle_pdf(self, ordered_pages):
+    def _shuffle_pdf(self, output_pdf_name, ordered_pages):
         output = PdfFileWriter()
         inputpdf = PdfFileReader(open(self.reversed_blanked_pdf_name, "rb"))
         for pg_number in ordered_pages:
             output.addPage(inputpdf.getPage(pg_number - 1))
-        with open(self.final_pdf_name, "wb") as output_stream:
+        with open(output_pdf_name, "wb") as output_stream:
             output.write(output_stream)
 
     def _calc_pdf_pages(self):
@@ -111,18 +117,18 @@ class Book():
         white_pages_count = correct_pages_count - self.end_page_number
         return correct_pages_count, white_pages_count
 
-    def _set_margin_crop(self):
-        ## set margin or crop
-        ## '10 7 10 7' --> 'left top right bottom'
-        ## example command: pdfcrop in.pdf out.pdf --margins '10 7 10 7'
-        margin_command = "pdfcrop {} {} --margins '{}'".format(self.original_pdf_path, self.margined_pdf_name, self.margins)
-        subprocess.call([
-            margin_command,
-            ], shell=True)
-    
-    def _check_requirments(self):
-        requirments = ["pdfcrop"]
-        for req in requirments:
-            if not shutil.which(req):
-                raise ValueError("you have to install {} on your system".format(req))
+    def _set_margins(self, input_pdf_name, output_pdf_name):
+        sys.argv = [
+            sys.argv[0],
+            '-p',
+            "-50",
+            input_pdf_name,
+            '-o',
+            output_pdf_name
+        ]
+        try:
+            pdfCropMargins.main()
+        except SystemExit:
+            pass
+
     
