@@ -6,8 +6,8 @@ def main():
     logging.basicConfig(level=logging.NOTSET)
 
     example_usage_command = """
-        $ bookleter.py my_book.pdf 1-30 rtl 50
-        $ bookleter.py [pdfname] [start_page-end_page] [direction: rtl ltr] [margin percentage: 50]
+        $ bookleter my_book.pdf 1-30 rtl 50
+        $ bookleter [pdfname] [start_page-end_page] [direction: rtl ltr] [margin percentage: 50]
     """
 
     if len(sys.argv) < 5:
