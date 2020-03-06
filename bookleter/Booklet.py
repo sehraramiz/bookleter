@@ -52,7 +52,7 @@ class Book():
             self._reverse_pages_order()
 
         logging.info("shuffling pages order...\ncreating final pdf...")
-        print_order = foop(self.reversed_blanked_pdf_name, self.final_pdf_name, self.correct_pages_count)
+        print_order = foop(self.correct_pages_count)
         self._shuffle_pdf(print_order)
 
         logging.info("creating test pdf...")
@@ -61,7 +61,7 @@ class Book():
         if self.direction == "rtl":
             self._reverse_pages_order()
 
-        print_order = foop(self.reversed_pickout_test_pages_pdf_name, self.test_pdf_name, 8)
+        print_order = foop(8)
         self._shuffle_pdf(print_order)
         
         logging.info("cleaning up...")
