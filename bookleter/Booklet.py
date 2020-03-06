@@ -79,7 +79,7 @@ class Book():
         inputpdf = PdfFileReader(open(self.original_pdf_path, "rb"))
         output = PdfFileWriter()
         for pg_number in range(start_page_number, end_page_number + 1):
-            output.addPage(inputpdf.getPage(pg_number))
+            output.addPage(inputpdf.getPage(pg_number - 1))
         with open(self.pickout_pages_pdf_name, "wb") as output_stream:
             output.write(output_stream)
 
