@@ -13,6 +13,8 @@ setup(
     packages = ['bookleter'],
     install_requires=[
             'PyPDF2',
+            'Pillow',
+            'pdfCropMargins'
         ],
     entry_points = {
         'console_scripts': [
