@@ -121,7 +121,7 @@ class Book():
         sys.argv = [
             sys.argv[0],
             '-p',
-            "-50",
+            self.margin_percentage,
             input_pdf_name,
             '-o',
             output_pdf_name
