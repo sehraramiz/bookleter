@@ -14,7 +14,8 @@ setup(
     install_requires=[
             'PyPDF2',
             'Pillow',
-            'pdfCropMargins'
+            'pdfCropMargins',
+            'PyQt5'
         ],
     entry_points = {
         'console_scripts': [
