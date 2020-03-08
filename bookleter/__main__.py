@@ -8,6 +8,8 @@ def main():
     example_usage_command = """
         $ bookleter my_book.pdf 1-30 rtl 50
         $ bookleter [pdfname] [start_page-end_page] [direction: rtl ltr] [margin percentage: 50]
+        direction: right to left (rtl) or left to right (ltr)
+        margin percentage: percentage of original pdf margins to reduce
     """
 
     if len(sys.argv) < 5:
