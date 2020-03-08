@@ -48,10 +48,10 @@ class MainWindow(QtWidgets.QWidget):
         self.book_direction_combobox = QtWidgets.QComboBox(self.centralwidget)
         self.book_direction_combobox.setGeometry(QtCore.QRect(90, 110, 51, 22))
         self.book_direction_combobox.setObjectName("book_direction_combobox")
-        self.progress_bar = QtWidgets.QProgressBar(self.centralwidget)
-        self.progress_bar.setGeometry(QtCore.QRect(20, 200, 181, 23))
-        self.progress_bar.setProperty("value", 24)
-        self.progress_bar.setObjectName("progress_bar")
+        # self.progress_bar = QtWidgets.QProgressBar(self.centralwidget)
+        # self.progress_bar.setGeometry(QtCore.QRect(20, 200, 181, 23))
+        # self.progress_bar.setProperty("value", 24)
+        # self.progress_bar.setObjectName("progress_bar")
         self.browse_button = QtWidgets.QPushButton(self.centralwidget)
         self.browse_button.setGeometry(QtCore.QRect(90, 30, 111, 31))
         self.browse_button.setObjectName("browse_button")
@@ -95,10 +95,7 @@ class MainWindow(QtWidgets.QWidget):
             msg.setText('Your book is ready!')
             msg.setIcon(QtWidgets.QMessageBox.Information)
             msg.show()
-        else:
-            msg.setText('Please select a pdf file with browse button')
-            msg.setIcon(QtWidgets.QMessageBox.Warning)
-            msg.show()
+
 
     def browse_file(self):
         options = QtWidgets.QFileDialog.Options()
