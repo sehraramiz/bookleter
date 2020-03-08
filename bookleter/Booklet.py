@@ -67,7 +67,7 @@ class Book():
             self._reverse_pages_order()
 
         print_order = foop(8)
-        self._shuffle_pdf(self.reversed_blanked_shuffled_test_pdf_name, print_order)
+        self._shuffle_pdf(self.test_pdf_name, print_order)
 
         # FIXME cannot use pdfCropMargins 2 times in a row, so test pdf margins are the same as before
         # self._set_margins(self.reversed_blanked_shuffled_test_pdf_name, self.test_pdf_name)
