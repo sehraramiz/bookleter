@@ -8,7 +8,7 @@ setup(
     author = 'Mohsen Barzegar',
     author_email = 'mohsennbarzegar@gmail.com',
     url = 'https://github.com/reinenichts/bookleter',
-    download_url = 'https://github.com/reinenichts/bookleter/archive/first.tar.gz',
+    download_url = 'https://github.com/reinenichts/bookleter/archive/gui.tar.gz',
     keywords = ['book', 'booklet', 'pdf'],
     packages = ['bookleter'],
     install_requires=[
