@@ -7,8 +7,9 @@
 # WARNING! All changes made in this file will be lost!
 
 
+import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
-from Booklet import Book
+from .Booklet import Book
 
 
 class MainWindow(QtWidgets.QWidget):
@@ -116,9 +117,7 @@ class MainWindow(QtWidgets.QWidget):
         self.make_booklet_button.setText(_translate("main_window", "Make My Booklet"))
         self.browse_button.setText(_translate("main_window", "Browse"))
 
-
-if __name__ == "__main__":
-    import sys
+def gui_main():
     app = QtWidgets.QApplication(sys.argv)
     main_window = QtWidgets.QMainWindow()
     ui = MainWindow()
