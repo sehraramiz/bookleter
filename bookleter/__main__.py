@@ -23,12 +23,7 @@ def main():
 
     margin_percentage = sys.argv[4]
 
-    current_path = Path.cwd()
-    file_path = PurePath.joinpath(current_path, sys.argv[1])
-    temp_path = file_path.parent / 'tmp'
-    Path(temp_path).mkdir(parents=True, exist_ok=True)
-
-    NewBook = Book(file_path, start_page_number, end_page_number, book_direction, margin_percentage)
+    NewBook = Book(sys.argv[1], start_page_number, end_page_number, book_direction, margin_percentage)
     NewBook.make_booklet()
 
 

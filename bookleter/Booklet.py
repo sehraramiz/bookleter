@@ -1,5 +1,6 @@
 import logging, shutil, sys
-from pathlib import Path
+from pathlib import Path, PurePath
+
 from PyPDF2 import PdfFileWriter, PdfFileReader
 from .shuffle import foop
 from pdfCropMargins import pdfCropMargins
@@ -7,7 +8,8 @@ from pdfCropMargins import pdfCropMargins
 
 class Book():
     def __init__(self, input_file_path, start_page_number, end_page_number, direction, margin_percentage='10'):
-        self.input_file_path = input_file_path
+        current_path = Path.cwd()
+        self.input_file_path = PurePath.joinpath(current_path, input_file_path)
         self.start_page_number = start_page_number
         self.end_page_number = end_page_number
         self.direction = direction
