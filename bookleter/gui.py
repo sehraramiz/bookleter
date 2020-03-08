@@ -72,7 +72,19 @@ class MainWindow(QtWidgets.QWidget):
     def make_booklet(self):
         print(self.book_direction_combobox.currentText())
         msg = QtWidgets.QMessageBox(self)
-        if len(self.pdf_file_path):
+        if not len(self.pdf_file_path):
+            msg.setText('Please select a pdf file with browse button')
+            msg.setIcon(QtWidgets.QMessageBox.Warning)
+            msg.show()
+        elif not len(self.start_page_number.toPlainText()) or not len(self.end_page_number.toPlainText()):
+            msg.setText('Please enter start and end page numbers')
+            msg.setIcon(QtWidgets.QMessageBox.Warning)
+            msg.show()
+        elif not len(self.margins_percentage.toPlainText()):
+            msg.setText('Please enter margins percentage')
+            msg.setIcon(QtWidgets.QMessageBox.Warning)
+            msg.show()    
+        else:
             new_book = Book(
                 self.pdf_file_path,
                 int(self.start_page_number.toPlainText()),
