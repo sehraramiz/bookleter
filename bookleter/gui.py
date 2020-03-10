@@ -157,11 +157,13 @@ class MainWindow(QtWidgets.QWidget):
             msg.setIcon(QtWidgets.QMessageBox.Warning)
             msg.show()    
         else:
+            direction_options = ["rtl", "ltr"]
+            print(self.book_direction_combobox.currentIndex())
             new_book = Book(
                 self.pdf_file_path,
                 int(self.start_page_number.toPlainText()),
                 int(self.end_page_number.toPlainText()),
-                self.book_direction_combobox.currentText(),
+                direction_options[self.book_direction_combobox.currentIndex()],
                 self.margins_percentage.toPlainText())
             new_book.make_booklet()
             msg.setText('Your book is ready!')
@@ -175,6 +177,7 @@ class MainWindow(QtWidgets.QWidget):
         fileName, _ = QtWidgets.QFileDialog.getOpenFileName(self,"QtWidgets.QFileDialog.getOpenFileName()", "","Pdf Files (*.pdf)", options=options)
         if fileName:
             self.pdf_file_path = fileName
+            self.file_path_label.setText(fileName)
             print(fileName)
 
     def retranslateUi(self, main_window):
