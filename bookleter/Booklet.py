@@ -27,6 +27,7 @@ class Book():
         self.pickout_test_pages_pdf_name = self.basic_temp_pdf_path.replace(".pdf", "_{}_{}.pdf".format(1, 8))
         self.reversed_pickout_test_pages_pdf_name = self.pickout_test_pages_pdf_name.replace(".pdf", "_reversed.pdf")
         self.blanked_pdf_name = self.pickout_pages_pdf_name.replace(".pdf", "_blanked.pdf")
+        self.blanked_shuffled_pdf_name = self.blanked_pdf_name.replace(".pdf", "_shuffled.pdf")
         self.reversed_blanked_pdf_name = self.blanked_pdf_name.replace(".pdf", "_reversed.pdf")
         self.reversed_blanked_shuffled_pdf_name = self.reversed_blanked_pdf_name.replace(".pdf", "_shuffled.pdf")
         self.reversed_blanked_shuffled_test_pdf_name = self.reversed_blanked_pdf_name.replace(".pdf", "_test_shuffled.pdf")
@@ -49,17 +50,25 @@ class Book():
             logging.info("no need for extra blank pages...")
             self.blanked_pdf_name = self.pickout_pages_pdf_name
 
+        print_order = foop(self.correct_pages_count)
+
         if self.direction == "rtl":
             logging.info("changing book direction to rtl...")
             self._reverse_pages_order()
 
-        logging.info("shuffling pages order...\ncreating final pdf...")
-        print_order = foop(self.correct_pages_count)
-        self._shuffle_pdf(self.reversed_blanked_shuffled_pdf_name, print_order)
+            logging.info("shuffling pages order...\ncreating final pdf...")
+            self._shuffle_pdf(self.reversed_blanked_shuffled_pdf_name, print_order)
 
-        logging.info("setting  margins...")
-        self._set_margins(self.reversed_blanked_shuffled_pdf_name, self.final_pdf_name)
-        
+            logging.info("setting  margins...")
+            self._set_margins(self.reversed_blanked_shuffled_pdf_name, self.final_pdf_name)
+
+        else:
+            self._shuffle_pdf(self.blanked_shuffled_pdf_name, print_order)
+
+            logging.info("setting  margins...")
+            self._set_margins(self.blanked_shuffled_pdf_name, self.final_pdf_name)
+
+
         logging.info("creating test pdf...")
         self._pickout_pages(1, 8)
 
@@ -105,7 +114,11 @@ class Book():
 
     def _shuffle_pdf(self, output_pdf_name, ordered_pages):
         output = PdfFileWriter()
-        inputpdf = PdfFileReader(open(self.reversed_blanked_pdf_name, "rb"))
+        if self.direction == "rtl":
+            inputpdf = PdfFileReader(open(self.reversed_blanked_pdf_name, "rb"))
+        else:
+            inputpdf = PdfFileReader(open(self.blanked_pdf_name, "rb"))
+
         for pg_number in ordered_pages:
             output.addPage(inputpdf.getPage(pg_number - 1))
         with open(output_pdf_name, "wb") as output_stream:
