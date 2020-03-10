@@ -9,6 +9,7 @@
 
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QMainWindow, QAction, qApp
 from .Booklet import Book
 
 
@@ -140,6 +141,14 @@ class MainWindow(QtWidgets.QWidget):
 
         self.pdf_file_path = ""
 
+        about = QAction('&About', self)        
+        about.setStatusTip('About Bookleter')
+
+        main_window.statusBar()
+
+        menubar = main_window.menuBar()
+        fileMenu = menubar.addMenu('&Click Me')
+        fileMenu.addAction(about)
 
     def make_booklet(self):
         print(self.book_direction_combobox.currentText())
