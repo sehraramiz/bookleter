@@ -159,6 +159,7 @@ class MainWindow(QtWidgets.QWidget):
         else:
             direction_options = ["rtl", "ltr"]
             print(self.book_direction_combobox.currentIndex())
+            self.log_label.setText("Making Booklet\nPlease Wait")
             new_book = Book(
                 self.pdf_file_path,
                 int(self.start_page_number.toPlainText()),
@@ -166,9 +167,10 @@ class MainWindow(QtWidgets.QWidget):
                 direction_options[self.book_direction_combobox.currentIndex()],
                 self.margins_percentage.toPlainText())
             new_book.make_booklet()
-            msg.setText('Your book is ready!')
-            msg.setIcon(QtWidgets.QMessageBox.Information)
-            msg.show()
+            self.log_label.setText("Your booklet is ready!")
+            # msg.setText('Your book is ready!')
+            # msg.setIcon(QtWidgets.QMessageBox.Information)
+            # msg.show()
 
 
     def browse_file(self):
