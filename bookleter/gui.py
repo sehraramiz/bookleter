@@ -176,10 +176,11 @@ class MainWindow(QtWidgets.QWidget):
                 direction_options[self.book_direction_combobox.currentIndex()],
                 self.margins_percentage.toPlainText())
             new_book.make_booklet()
+            self.new_book = new_book
             self.log_label.setText("Your booklet is ready!")
-            # msg.setText('Your book is ready!')
-            # msg.setIcon(QtWidgets.QMessageBox.Information)
-            # msg.show()
+            msg.setText('Your book is ready!\nRestart the app for another book')
+            msg.setIcon(QtWidgets.QMessageBox.Information)
+            msg.show()
 
 
     def browse_file(self):
@@ -199,6 +200,7 @@ class MainWindow(QtWidgets.QWidget):
         self.book_direction_combobox.setItemText(1, _translate("main_window", "Left to Right"))
         self.input_file_label.setText(_translate("main_window", "Enter Pdf File"))
         self.log_label.setText(_translate("main_window", "Log"))
+        self.log_label.hide()
         self.browse_button.setText(_translate("main_window", "Browse"))
         self.start_page_number_label.setText(_translate("main_window", "Pages"))
         self.book_direction_label.setText(_translate("main_window", "Book Direction"))
