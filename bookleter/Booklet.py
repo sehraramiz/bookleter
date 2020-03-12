@@ -139,7 +139,8 @@ class Book():
             self.margin_percentage,
             input_pdf_name,
             '-o',
-            output_pdf_name
+            output_pdf_name,
+            '--restore'
         ]
         try:
             pdfCropMargins.main()
