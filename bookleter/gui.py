@@ -143,12 +143,25 @@ class MainWindow(QtWidgets.QWidget):
 
         about = QAction('&About', self)        
         about.setStatusTip('About Bookleter')
+        about.triggered.connect(self.show_about_window)
 
         main_window.statusBar()
 
         menubar = main_window.menuBar()
         fileMenu = menubar.addMenu('&Yo!')
         fileMenu.addAction(about)
+
+    def show_about_window(self):
+            msg = QtWidgets.QMessageBox(self)
+            ABOUT_TEXT = """
+                The Bookleter
+                New Version: https://github.com/reinenichts/bookleter/releases/new
+                Github: https://github.com/reinenichts/bookleter
+                Booklets Story: https://virgool.io/@mohsenbarzegar/d/nkkuh18xnbyk
+            """ 
+            msg.setText(ABOUT_TEXT)
+            msg.setIcon(QtWidgets.QMessageBox.Information)
+            msg.show()
 
     def make_booklet(self):
         print(self.book_direction_combobox.currentText())
@@ -182,7 +195,8 @@ class MainWindow(QtWidgets.QWidget):
                 msg.show()
                 return
             self.log_label.setText("Your booklet is ready!")
-            msg.setText('Your book is ready!\nRestart the app for another book')
+            msg.setText("Your booklet is ready!\nRestart the app for another book\nBooklet File: {}\nBooklet Test File: {}".format(
+                    new_book.final_pdf_name, new_book.test_pdf_name))
             msg.setIcon(QtWidgets.QMessageBox.Information)
             msg.show()
 
