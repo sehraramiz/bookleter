@@ -1,4 +1,5 @@
 import logging, shutil, sys
+from pathlib import Path
 from pathlib import Path, PurePath
 
 from PyPDF2 import PdfFileWriter, PdfFileReader
@@ -139,12 +140,12 @@ class Book():
             self.margin_percentage,
             input_pdf_name,
             '-o',
-            output_pdf_name,
-            '--restore'
+            output_pdf_name
         ]
         try:
             pdfCropMargins.main()
         except SystemExit:
             pass
 
-    
+    def check_booklet_is_created(self):
+        return Path(self.final_pdf_name).is_file() and Path(self.test_pdf_name).is_file()

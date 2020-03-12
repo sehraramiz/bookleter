@@ -176,7 +176,11 @@ class MainWindow(QtWidgets.QWidget):
                 direction_options[self.book_direction_combobox.currentIndex()],
                 self.margins_percentage.toPlainText())
             new_book.make_booklet()
-            self.new_book = new_book
+            if not new_book.check_booklet_is_created():
+                msg.setText('Please restart the app for another book')
+                msg.setIcon(QtWidgets.QMessageBox.Critical)
+                msg.show()
+                return
             self.log_label.setText("Your booklet is ready!")
             msg.setText('Your book is ready!\nRestart the app for another book')
             msg.setIcon(QtWidgets.QMessageBox.Information)
