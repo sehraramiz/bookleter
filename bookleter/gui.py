@@ -147,7 +147,7 @@ class MainWindow(QtWidgets.QWidget):
         main_window.statusBar()
 
         menubar = main_window.menuBar()
-        fileMenu = menubar.addMenu('&Click Me')
+        fileMenu = menubar.addMenu('&Yo!')
         fileMenu.addAction(about)
 
     def make_booklet(self):

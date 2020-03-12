@@ -9,6 +9,7 @@ from pdfCropMargins import pdfCropMargins
 
 class Book():
     def __init__(self, input_file_path, start_page_number, end_page_number, direction, margin_percentage='10'):
+        # TODO add input validation
         current_path = Path.cwd()
         self.input_file_path = PurePath.joinpath(current_path, input_file_path)
         self.start_page_number = start_page_number
