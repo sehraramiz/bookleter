@@ -202,11 +202,11 @@ class MainWindow(QtWidgets.QWidget):
     def show_about_window(self):
             msg = QtWidgets.QMessageBox(self)
             ABOUT_TEXT = """
-                The Bookleter
+                The Bookleter {}
                 New Version: https://github.com/reinenichts/bookleter/releases/new
                 Github: https://github.com/reinenichts/bookleter
                 Booklets Story: https://virgool.io/@mohsenbarzegar/d/nkkuh18xnbyk
-            """ 
+            """.format(pkg_resources.get_distribution("bookleter").version)
             msg.setText(ABOUT_TEXT)
             msg.setIcon(QtWidgets.QMessageBox.Information)
             msg.show()
