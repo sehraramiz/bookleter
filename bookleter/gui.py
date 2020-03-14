@@ -7,7 +7,7 @@
 # WARNING! All changes made in this file will be lost!
 
 
-import sys
+import sys, pkg_resources, pathlib
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMainWindow, QAction, qApp
 from .Booklet import Book
@@ -248,15 +248,13 @@ class MainWindow(QtWidgets.QWidget):
             msg.setIcon(QtWidgets.QMessageBox.Information)
             msg.show()
 
-
     def browse_file(self):
         options = QtWidgets.QFileDialog.Options()
         options |= QtWidgets.QFileDialog.DontUseNativeDialog
-        fileName, _ = QtWidgets.QFileDialog.getOpenFileName(self,"QtWidgets.QFileDialog.getOpenFileName()", "","Pdf Files (*.pdf)", options=options)
-        if fileName:
-            self.pdf_file_path = fileName
-            self.file_path_label.setText(fileName)
-            print(fileName)
+        file_path, _ = QtWidgets.QFileDialog.getOpenFileName(self,"QtWidgets.QFileDialog.getOpenFileName()", "","Pdf Files (*.pdf)", options=options)
+        if file_path:
+            self.pdf_file_path = file_path
+            self.file_path_label.setText(pathlib.Path(file_path).name)
 
     def retranslateUi(self, main_window):
         _translate = QtCore.QCoreApplication.translate
