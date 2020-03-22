@@ -14,3 +14,7 @@ $ bookleter [pdfname] [start_page-end_page] [direction: rtl ltr] [margin percent
 ```console
 $ bookleter my_book.pdf 1-30 rtl 50
 ```
+
+<div dir="rtl"> 
+  روش نصب:
+</div>
