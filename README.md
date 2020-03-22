@@ -1,6 +1,8 @@
 # bookleter
 ##### Turns pdfs into a6 sized foldable booklets
 
+![My Hot Booklet](screenshots/header.jpg)
+
 ## install
 ```console
 $ pip install bookleter==0.1.0
@@ -45,6 +47,8 @@ rtl (Right To Left) or ltr(Left To Right)</br>
 ```console
 $ bookleter
 ```
+
+![GUI](screenshots/bookleter_gui.png)
 
 <div dir="rtl">
 که استفاده ازش نیازی به توضیح نداره.</br>
