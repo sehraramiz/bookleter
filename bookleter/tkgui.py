@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import filedialog, Text
 
 class Application(tk.Frame):
     def __init__(self, master=None):
@@ -16,6 +17,12 @@ class Application(tk.Frame):
     def say_hi(self):
         print("hi there, everyone!")
 
-root = tk.Tk()
-app = Application(master=root)
-app.mainloop()
+def gui_main():
+    root = tk.Tk()
+    app = Application(master=root)
+    app.mainloop()
+
+if __name__ == "__main__":
+    gui_main()
+
+
