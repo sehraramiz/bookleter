@@ -11,6 +11,14 @@ class Application:
         self.mainwindow = builder.get_object('mainwindow', master)
         builder.connect_callbacks(self)
 
+        callbacks = {
+            'on_file_path_button_clicked': self.on_file_path_button_clicked
+            }
+
+        builder.connect_callbacks(callbacks)
+
+    def on_file_path_button_clicked(self):
+        print("clicked!")
 
 def gui_main():
     root = tk.Tk()
