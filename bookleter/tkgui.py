@@ -4,7 +4,6 @@ import pygubu
 
 class Application:
     def __init__(self, master=None):
-        # super().__init__(master)
         self.master = master
         
         self.builder = builder = pygubu.Builder()
