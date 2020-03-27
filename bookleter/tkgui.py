@@ -1,6 +1,6 @@
 import pathlib
 import tkinter as tk
-from tkinter import filedialog, Text
+from tkinter import filedialog, Text, messagebox
 import pygubu
 from .Booklet import Book
 
@@ -57,6 +57,12 @@ class Application:
         else:
             print("invalid")
             return
+        
+        if not new_book.check_booklet_is_created():
+            messagebox.showwarning("Sorry", "Please Reastart The App For Another booklet :>")
+            return
+        
+        messagebox.showinfo("", "Your Booklet Is Ready!")
     
     def validate_inputs(self):
         if "" in [
