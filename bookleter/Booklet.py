@@ -150,3 +150,12 @@ class Book():
 
     def check_booklet_is_created(self):
         return Path(self.final_pdf_name).is_file() and Path(self.test_pdf_name).is_file()
+
+    def __str__(self):
+        return str({
+            "pdf_file_path": self.input_file_path,
+            "start_page": self.start_page_number,
+            "end_page": self.end_page_number,
+            "margins": self.margin_percentage,
+            "book_direction": self.direction
+        })
