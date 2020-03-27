@@ -2,9 +2,9 @@ from setuptools import setup
 
 setup(
     name = 'bookleter',
-    version = '0.3.0',
+    version = '0.4.0',
     license='MIT',
-    description = 'turns pdfs into a6 sized foldable booklets',
+    description = 'Turns pdfs into a6 sized foldable booklets',
     author = 'Mohsen Barzegar',
     author_email = 'mohsennbarzegar@gmail.com',
     url = 'https://github.com/reinenichts/bookleter',
@@ -15,7 +15,7 @@ setup(
             'PyPDF2',
             'Pillow',
             'pdfCropMargins',
-            'PyQt5'
+            # 'PyQt5'
         ],
     entry_points = {
         'console_scripts': [
