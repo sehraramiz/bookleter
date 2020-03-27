@@ -15,6 +15,7 @@ setup(
             'PyPDF2',
             'Pillow',
             'pdfCropMargins',
+            'pygubu',
             # 'PyQt5'
         ],
     entry_points = {
