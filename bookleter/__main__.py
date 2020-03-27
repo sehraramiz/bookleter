@@ -1,7 +1,7 @@
 import sys, logging
 from pathlib import Path, PurePath
 from .Booklet import Book
-from .gui import gui_main
+from .tkgui import gui_main
 
 def main():
     logging.basicConfig(level=logging.NOTSET)
