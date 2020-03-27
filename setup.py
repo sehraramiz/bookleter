@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name = 'bookleter',
-    version = '0.4.1',
+    version = '0.4.2',
     license='MIT',
     description = 'Turns pdfs into a6 sized foldable booklets',
     author = 'Mohsen Barzegar',
