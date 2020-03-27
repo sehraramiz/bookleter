@@ -1,3 +1,4 @@
+import pathlib
 import tkinter as tk
 from tkinter import filedialog, Text
 import pygubu
@@ -22,7 +23,8 @@ class Application:
         combo.bind("<<ComboboxSelected>>", self.on_book_direction_change) 
 
     def on_file_path_button_clicked(self):
-        self.file_path = filedialog.askopenfilename(initialdir="/", title="Select Pdf File")
+        self.file_path = file_path = filedialog.askopenfilename(title="Select Pdf File")
+        if file_path:
         self.builder.get_object('file_name_label').config(text=pathlib.Path(self.file_path).name)
 
 
