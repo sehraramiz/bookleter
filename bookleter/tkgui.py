@@ -12,13 +12,24 @@ class Application:
         builder.connect_callbacks(self)
 
         callbacks = {
+            'on_file_path_button_clicked': self.on_file_path_button_clicked,
             'on_file_path_button_clicked': self.on_file_path_button_clicked
             }
 
         builder.connect_callbacks(callbacks)
 
+        combo = self.builder.get_object('book_direction_combobox')
+        combo.bind("<<ComboboxSelected>>", self.on_book_direction_change) 
+
     def on_file_path_button_clicked(self):
-        print("clicked!")
+        self.file_name = filedialog.askopenfilename(initialdir="/", title="Select Pdf File")
+        self.builder.get_object('file_name_label').config(text=self.file_name)
+
+
+    def on_book_direction_change(self, event):
+        combo = self.builder.get_object('book_direction_combobox')
+        self.book_direction = combo.get()
+
 
 def gui_main():
     root = tk.Tk()

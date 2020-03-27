@@ -38,8 +38,12 @@
     </child>
     <child>
       <object class="ttk.Combobox" id="book_direction_combobox">
+        <property name="justify">center</property>
+        <property name="state">readonly</property>
+        <property name="values">"Right To Left" "Left To Right"</property>
         <layout>
           <property name="column">0</property>
+          <property name="ipady">5</property>
           <property name="propagate">True</property>
           <property name="row">3</property>
         </layout>
@@ -116,6 +120,7 @@
     </child>
     <child>
       <object class="ttk.Button" id="make_booklet_button">
+        <property name="command">on_make_booklet_button_clicked</property>
         <property name="text" translatable="yes">Make My Booklet</property>
         <layout>
           <property name="column">0</property>
