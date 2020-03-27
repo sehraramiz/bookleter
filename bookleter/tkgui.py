@@ -10,7 +10,9 @@ class Application:
         self.master = master
         
         self.builder = builder = pygubu.Builder()
-        builder.add_from_file('tkgui.ui')
+        current_path = pathlib.Path.cwd()
+        tkui_path = current_path / 'tkgui.ui'
+        builder.add_from_file(tkui_path)
         self.mainwindow = builder.get_object('mainwindow', master)
         builder.connect_callbacks(self)
 
