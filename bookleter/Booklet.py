@@ -3,7 +3,7 @@ from pathlib import Path
 from pathlib import Path, PurePath
 
 from PyPDF2 import PdfFileWriter, PdfFileReader
-from shuffle import foop
+from bookleter.shuffle import foop
 from pdfCropMargins import pdfCropMargins
 
 

@@ -2,7 +2,7 @@ import pathlib, pkg_resources, webbrowser
 import tkinter as tk
 from tkinter import filedialog, messagebox, Menu, Label, Toplevel
 import pygubu
-from Booklet import Book
+from bookleter.Booklet import Book
 
 
 class Application:
