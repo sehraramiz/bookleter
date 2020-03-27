@@ -1,6 +1,6 @@
-import pathlib
+import pathlib, pkg_resources, webbrowser
 import tkinter as tk
-from tkinter import filedialog, Text, messagebox
+from tkinter import filedialog, messagebox, Menu, Label, Toplevel
 import pygubu
 from .Booklet import Book
 
@@ -13,6 +13,13 @@ class Application:
         builder.add_from_file('tkgui.ui')
         self.mainwindow = builder.get_object('mainwindow', master)
         builder.connect_callbacks(self)
+
+        menu = Menu(self.master)
+        self.master.config(menu=menu)
+
+        infoMenu = Menu(menu)
+        menu.add_cascade(label="Hey", menu=infoMenu)
+        infoMenu.add_command(label="About", command=self.show_about)
 
         callbacks = {
             'on_file_path_button_clicked': self.on_file_path_button_clicked,
@@ -76,6 +83,36 @@ class Application:
     def on_book_direction_change(self, event):
         combo = self.builder.get_object('book_direction_combobox')
         self.book_direction_index = combo.current()
+
+    def show_about(self):
+        ABOUT_TEXT = "The Bookleter {} ".format(pkg_resources.get_distribution("bookleter").version)
+        toplevel = Toplevel(borderwidth=50)
+        
+        about_label = Label(toplevel, text=ABOUT_TEXT, height=0, width=0)
+        about_label.pack()
+        
+        github_link = Label(toplevel, text="Bookleter on Github", fg="blue", cursor="hand2", pady=5)
+        github_link.pack()
+        github_link.bind("<Button-1>", lambda e: self.callback("http://github.com/reinenichts/bookleter"))
+
+        virgool_link = Label(toplevel, text="About Booklets", fg="blue", cursor="hand2", pady=5)
+        virgool_link.pack()
+        virgool_link.bind("<Button-1>", lambda e: self.callback("http://virgool.io/@mohsenbarzegar/d/nkkuh18xnbyk"))
+
+        new_version_link = Label(toplevel, text="New Version", fg="blue", cursor="hand2", pady=5)
+        new_version_link.pack()
+        new_version_link.bind("<Button-1>", lambda e: self.callback("http://github.com/reinenichts/bookleter/releases/new"))
+
+        button = tk.Button(
+            toplevel, 
+            text="Cool", 
+            fg="black",
+            command=toplevel.destroy
+            )
+        button.pack()
+
+    def callback(self, url):
+        webbrowser.open(url)
 
 
 def gui_main():
