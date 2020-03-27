@@ -22,8 +22,8 @@ class Application:
         combo.bind("<<ComboboxSelected>>", self.on_book_direction_change) 
 
     def on_file_path_button_clicked(self):
-        self.file_name = filedialog.askopenfilename(initialdir="/", title="Select Pdf File")
-        self.builder.get_object('file_name_label').config(text=self.file_name)
+        self.file_path = filedialog.askopenfilename(initialdir="/", title="Select Pdf File")
+        self.builder.get_object('file_name_label').config(text=pathlib.Path(self.file_path).name)
 
 
     def on_book_direction_change(self, event):
