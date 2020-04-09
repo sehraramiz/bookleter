@@ -4,6 +4,7 @@ from pathlib import Path, PurePath
 
 from PyPDF2 import PdfFileWriter, PdfFileReader
 from bookleter.shuffle import foop
+import pdfpeeler
 from pdfCropMargins import pdfCropMargins
 
 
@@ -135,18 +136,30 @@ class Book():
         return correct_pages_count, white_pages_count
 
     def _set_margins(self, input_pdf_name, output_pdf_name):
+        # sys.argv = [
+        #     sys.argv[0],
+        #     '-p',
+        #     self.margin_percentage,
+        #     input_pdf_name,
+        #     '-o',
+        #     output_pdf_name
+        # ]
+        # try:
+        #     pdfCropMargins.main()
+        # except SystemExit:
+        #     pass
+
         sys.argv = [
             sys.argv[0],
-            '-p',
-            self.margin_percentage,
             input_pdf_name,
             '-o',
-            output_pdf_name
+            output_pdf_name,
+            '-m',
+            self.margin_percentage,
+            '-p',
         ]
-        try:
-            pdfCropMargins.main()
-        except SystemExit:
-            pass
+
+        pdfpeeler.peeler_main()
 
     def check_booklet_is_created(self):
         return Path(self.final_pdf_name).is_file() and Path(self.test_pdf_name).is_file()
