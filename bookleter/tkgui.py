@@ -2,8 +2,7 @@ import pathlib, pkg_resources, webbrowser
 import tkinter as tk
 from tkinter import filedialog, messagebox, Menu, Label, Toplevel
 import pygubu
-from bookleter.Booklet import Book
-
+from . import Booklet
 
 class Application:
     def __init__(self, master=None):
@@ -54,7 +53,7 @@ class Application:
 
         # make booklet
         if self.validate_inputs():
-            new_book = Book(
+            new_book = Booklet.Book(
                 self.file_path,
                 int(self.start_page_number),
                 int(self.end_page_number),

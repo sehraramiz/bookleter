@@ -3,8 +3,8 @@ from pathlib import Path
 from pathlib import Path, PurePath
 
 from PyPDF2 import PdfFileWriter, PdfFileReader
-from bookleter.shuffle import foop
-import pdfpeeler
+from . import shuffle
+from . import pdfpeeler
 from pdfCropMargins import pdfCropMargins
 
 
@@ -53,7 +53,7 @@ class Book():
             logging.info("no need for extra blank pages...")
             self.blanked_pdf_name = self.pickout_pages_pdf_name
 
-        print_order = foop(self.correct_pages_count)
+        print_order = shuffle.foop(self.correct_pages_count)
 
         if self.direction == "rtl":
             logging.info("changing book direction to rtl...")
@@ -78,7 +78,7 @@ class Book():
         if self.direction == "rtl":
             self._reverse_pages_order()
 
-        print_order = foop(8)
+        print_order = shuffle.foop(8)
         self._shuffle_pdf(self.test_pdf_name, print_order)
 
         # FIXME cannot use pdfCropMargins 2 times in a row, so test pdf margins are the same as before

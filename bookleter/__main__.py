@@ -1,7 +1,7 @@
 import sys, logging
 from pathlib import Path, PurePath
-from bookleter.Booklet import Book
-from bookleter.tkgui import gui_main
+from . import Booklet
+from . import tkgui
 
 def main():
     logging.basicConfig(level=logging.NOTSET)
@@ -14,7 +14,7 @@ def main():
     """
 
     if len(sys.argv) == 1:
-        gui_main()
+        tkgui.gui_main()
     elif len(sys.argv) < 5:
         logging.error("missing some arguments\nuse it like this:\n{}".format(example_usage_command))
         sys.exit()
@@ -26,7 +26,7 @@ def main():
 
         margin_percentage = sys.argv[4]
 
-        NewBook = Book(sys.argv[1], start_page_number, end_page_number, book_direction, margin_percentage)
+        NewBook = Booklet.Book(sys.argv[1], start_page_number, end_page_number, book_direction, margin_percentage)
         NewBook.make_booklet()
 
 

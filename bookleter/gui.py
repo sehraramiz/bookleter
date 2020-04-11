@@ -10,7 +10,7 @@
 import sys, pkg_resources, pathlib
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMainWindow, QAction, qApp
-from .Booklet import Book
+from . import Booklet
 
 
 class MainWindow(QtWidgets.QWidget):
@@ -231,7 +231,7 @@ class MainWindow(QtWidgets.QWidget):
             direction_options = ["rtl", "ltr"]
             print(self.book_direction_combobox.currentIndex())
             self.log_label.setText("Making Booklet\nPlease Wait")
-            new_book = Book(
+            new_book = Booklet.Book(
                 self.pdf_file_path,
                 int(self.start_page_number.toPlainText()),
                 int(self.end_page_number.toPlainText()),
