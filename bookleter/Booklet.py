@@ -2,21 +2,27 @@ import logging, shutil, sys
 from pathlib import Path
 from pathlib import Path, PurePath
 
-from PyPDF2 import PdfFileWriter, PdfFileReader
+from PyPDF2 import PdfFileWriter, PdfFileReader, pdf
 from . import shuffle
-from . import pdfpeeler
-from pdfCropMargins import pdfCropMargins
 
 
 class Book():
-    def __init__(self, input_file_path, start_page_number, end_page_number, direction, margin_percentage='10'):
+    def __init__(
+        self,
+        input_file_path,
+        start_page_number,
+        end_page_number,
+        direction,
+        crop,
+        ):
+
         # TODO add input validation
         current_path = Path.cwd()
         self.input_file_path = PurePath.joinpath(current_path, input_file_path)
         self.start_page_number = start_page_number
         self.end_page_number = end_page_number
         self.direction = direction
-        self.margin_percentage = margin_percentage
+        self.crop = crop
 
         logging.basicConfig(level=logging.NOTSET)
         
@@ -62,14 +68,14 @@ class Book():
             logging.info("shuffling pages order...\ncreating final pdf...")
             self._shuffle_pdf(self.reversed_blanked_shuffled_pdf_name, print_order)
 
-            logging.info("setting  margins...")
-            self._set_margins(self.reversed_blanked_shuffled_pdf_name, self.final_pdf_name)
+            logging.info("cropping...")
+            self._set_crop(self.reversed_blanked_shuffled_pdf_name, self.final_pdf_name)
 
         else:
             self._shuffle_pdf(self.blanked_shuffled_pdf_name, print_order)
 
-            logging.info("setting  margins...")
-            self._set_margins(self.blanked_shuffled_pdf_name, self.final_pdf_name)
+            logging.info("cropping...")
+            self._set_crop(self.blanked_shuffled_pdf_name, self.final_pdf_name)
 
 
         logging.info("creating test pdf...")
@@ -79,10 +85,9 @@ class Book():
             self._reverse_pages_order()
 
         print_order = shuffle.foop(8)
-        self._shuffle_pdf(self.test_pdf_name, print_order)
+        self._shuffle_pdf(self.reversed_blanked_shuffled_test_pdf_name, print_order)
 
-        # FIXME cannot use pdfCropMargins 2 times in a row, so test pdf margins are the same as before
-        # self._set_margins(self.reversed_blanked_shuffled_test_pdf_name, self.test_pdf_name)
+        self._set_crop(self.reversed_blanked_shuffled_test_pdf_name, self.test_pdf_name)
 
         logging.info("cleaning up...")
         shutil.rmtree(self.temp_path)
@@ -135,31 +140,18 @@ class Book():
         white_pages_count = correct_pages_count - self.end_page_number
         return correct_pages_count, white_pages_count
 
-    def _set_margins(self, input_pdf_name, output_pdf_name):
-        # sys.argv = [
-        #     sys.argv[0],
-        #     '-p',
-        #     self.margin_percentage,
-        #     input_pdf_name,
-        #     '-o',
-        #     output_pdf_name
-        # ]
-        # try:
-        #     pdfCropMargins.main()
-        # except SystemExit:
-        #     pass
+    def _set_crop(self, input_pdf_name, output_pdf_name):
 
-        sys.argv = [
-            sys.argv[0],
-            input_pdf_name,
-            '-o',
-            output_pdf_name,
-            '-m',
-            self.margin_percentage,
-            '-p',
-        ]
+        inputpdf = PdfFileReader(open(input_pdf_name, "rb"))
+        output = PdfFileWriter()
 
-        pdfpeeler.peeler_main()
+        for page in inputpdf.pages:
+            page.cropBox.lowerLeft = tuple([a + b for a, b in zip(page.cropBox.lowerLeft, (self.crop['left'], self.crop['bottom']))])
+            page.cropBox.upperRight = tuple([a - b for a, b in zip(page.cropBox.upperRight, (self.crop['right'], self.crop['top']))])
+            
+            output.addPage(page)
+        with open(output_pdf_name, "wb") as output_stream:
+            output.write(output_stream)
 
     def check_booklet_is_created(self):
         return Path(self.final_pdf_name).is_file() and Path(self.test_pdf_name).is_file()
@@ -169,6 +161,6 @@ class Book():
             "pdf_file_path": self.input_file_path,
             "start_page": self.start_page_number,
             "end_page": self.end_page_number,
-            "margins": self.margin_percentage,
+            "crop": self.crop,
             "book_direction": self.direction
         })

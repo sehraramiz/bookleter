@@ -35,8 +35,43 @@ class Application:
         self.file_path = ""
         self.start_page_number = ""
         self.end_page_number = ""
-        self.margins = ""
+
+        self.crop = {
+            'left': 0,
+            'top': 0,
+            'right': 0,
+            'bottom': 0
+        }
+
+        self.builder.get_object('crop_left').insert(0, 'left')
+        self.builder.get_object('crop_top').insert(0, 'top')
+        self.builder.get_object('crop_right').insert(0, 'right')
+        self.builder.get_object('crop_bottom').insert(0, 'bottom')
+
+        for entry_id in ["crop_left", "crop_top", "crop_right", "crop_bottom"]:
+            self.set_placeholder(entry_id)
+
         self.book_direction_index = ""
+
+
+    def set_placeholder(self, entry_id):
+        entry = self.builder.get_object(entry_id)
+        entry.bind("<FocusIn>", lambda event, arg={"entry": entry, "placeholder": entry.get()}: self.foc_in(event, arg))
+        entry.bind("<FocusOut>", lambda event, arg={"entry": entry, "placeholder": entry.get()}: self.foc_out(event, arg))
+
+    def put_placeholder(self, entry, placeholder):
+        entry.insert(0, placeholder)
+
+    def foc_in(self, *args):
+        try:
+            int(args[1]['entry'].get())
+        except Exception as e:
+            args[1]['entry'].delete('0', 'end')
+            print(e)
+
+    def foc_out(self, *args):
+        if not args[1]['entry'].get():
+            self.put_placeholder(args[1]['entry'], args[1]['placeholder'])
 
 
     def on_file_path_button_clicked(self):
@@ -47,7 +82,10 @@ class Application:
     def on_make_booklet_button_clicked(self):
         self.start_page_number = self.builder.get_object('start_page_input').get()
         self.end_page_number = self.builder.get_object('end_page_input').get()
-        self.margins = self.builder.get_object('margins_input').get()
+        self.crop["left"] = int(self.builder.get_object('crop_left').get())
+        self.crop["top"] = int(self.builder.get_object('crop_top').get())
+        self.crop["right"] = int(self.builder.get_object('crop_right').get())
+        self.crop["bottom"] = int(self.builder.get_object('crop_bottom').get())
 
         direction_options = ["rtl", "ltr"]
 
@@ -58,7 +96,7 @@ class Application:
                 int(self.start_page_number),
                 int(self.end_page_number),
                 direction_options[self.book_direction_index],
-                self.margins
+                self.crop
             )
             print(new_book)
             new_book.make_booklet()
@@ -76,7 +114,7 @@ class Application:
         if "" in [
             self.file_path, self.start_page_number,
             self.end_page_number, str(self.book_direction_index),
-            self.margins
+            self.crop
             ]:
             return False
         return True

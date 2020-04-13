@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name = 'bookleter',
-    version = '0.4.5',
+    version = '0.4.6',
     license='MIT',
     description = 'Turns pdfs into a6 sized foldable booklets',
     author = 'Mohsen Barzegar',
@@ -14,7 +14,6 @@ setup(
     install_requires=[
             'PyPDF2',
             'Pillow',
-            'pdfCropMargins',
             'pygubu',
             # 'PyQt5'
         ],

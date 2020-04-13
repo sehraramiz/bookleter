@@ -8,9 +8,9 @@ def main():
 
     example_usage_command = """
         $ bookleter my_book.pdf 1-30 rtl 50
-        $ bookleter [pdfname] [start_page-end_page] [direction: rtl ltr] [margin percentage: 50]
+        $ bookleter [pdfname] [start_page-end_page] [direction: rtl ltr] [page crop: 50]
         direction: right to left (rtl) or left to right (ltr)
-        margin percentage: percentage of original pdf margins to reduce
+        page crop: amount of page border crop in pixels
     """
 
     if len(sys.argv) == 1:
@@ -24,9 +24,17 @@ def main():
 
         book_direction = sys.argv[3]
 
-        margin_percentage = sys.argv[4]
+        crop_amount = sys.argv[4]
 
-        NewBook = Booklet.Book(sys.argv[1], start_page_number, end_page_number, book_direction, margin_percentage)
+        # FIXME get four directions crop from cli
+        crop = {
+            "left": crop_amount,
+            "top": crop_amount,
+            "right": crop_amount,
+            "bottom": crop_amount
+        }
+
+        NewBook = Booklet.Book(sys.argv[1], start_page_number, end_page_number, book_direction, crop)
         NewBook.make_booklet()
 
 
