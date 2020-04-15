@@ -3,7 +3,7 @@ from pathlib import Path
 from pathlib import Path, PurePath
 
 from PyPDF2 import PdfFileWriter, PdfFileReader, pdf
-from . import shuffle
+from bookleter import shuffle
 
 
 class Book():

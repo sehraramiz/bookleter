@@ -10,7 +10,7 @@
 import sys, pkg_resources, pathlib
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMainWindow, QAction, qApp
-from . import Booklet
+from bookleter import Booklet
 
 
 class MainWindow(QtWidgets.QWidget):
