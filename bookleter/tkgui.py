@@ -1,8 +1,9 @@
-import pathlib, pkg_resources, webbrowser
+import pathlib, webbrowser
 import tkinter as tk
 from tkinter import filedialog, messagebox, Menu, Label, Toplevel
 import pygubu
 from bookleter import Booklet
+from bookleter.__version__ import __version__
 
 class Application:
     def __init__(self, master=None):
@@ -124,7 +125,7 @@ class Application:
         self.book_direction_index = combo.current()
 
     def show_about(self):
-        ABOUT_TEXT = "The Bookleter {} ".format(pkg_resources.get_distribution("bookleter").version)
+        ABOUT_TEXT = "The Bookleter {} ".format(__version__)
         toplevel = Toplevel(borderwidth=50)
         
         about_label = Label(toplevel, text=ABOUT_TEXT, height=0, width=0)
