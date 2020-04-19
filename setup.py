@@ -1,8 +1,9 @@
 from setuptools import setup
+from bookleter.__version__ import __version__
 
 setup(
     name = 'bookleter',
-    version = '0.4.6',
+    version = __version__,
     license='MIT',
     description = 'Turns pdfs into a6 sized foldable booklets',
     author = 'Mohsen Barzegar',
