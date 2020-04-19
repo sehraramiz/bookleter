@@ -1,4 +1,4 @@
-import sys, logging
+import sys, logging, re
 from pathlib import Path, PurePath
 from bookleter import Booklet
 from bookleter import tkgui
@@ -7,10 +7,10 @@ def main():
     logging.basicConfig(level=logging.NOTSET)
 
     example_usage_command = """
-        $ bookleter my_book.pdf 1-30 rtl 50
-        $ bookleter [pdfname] [start_page-end_page] [direction: rtl ltr] [page crop: 50]
+        $ bookleter my_book.pdf 1-30 rtl '50 50 50 50'
+        $ bookleter [pdfname] [start_page-end_page] [direction: rtl ltr] [page crop: '50 50 50 50']
         direction: right to left (rtl) or left to right (ltr)
-        page crop: amount of page border crop in pixels
+        page crop: amount of page border crop in pixels 'left top right bottom'
     """
 
     if len(sys.argv) == 1:
@@ -24,14 +24,16 @@ def main():
 
         book_direction = sys.argv[3]
 
-        crop_amount = sys.argv[4]
+        if not re.match("\\d+ \\d+ \\d+ \\d+", sys.argv[4]):
+            logging.error("invalid crop option\nuse it like this:\n{}".format(example_usage_command))
+            sys.exit()
+        crop_amount = [int(s) for s in re.findall(r'\b\d+\b', sys.argv[4])]
 
-        # FIXME get four directions crop from cli
         crop = {
-            "left": crop_amount,
-            "top": crop_amount,
-            "right": crop_amount,
-            "bottom": crop_amount
+            "left": crop_amount[0],
+            "top": crop_amount[1],
+            "right": crop_amount[2],
+            "bottom": crop_amount[3]
         }
 
         NewBook = Booklet.Book(sys.argv[1], start_page_number, end_page_number, book_direction, crop)
