@@ -157,6 +157,7 @@ class Application:
 
 def gui_main():
     root = tk.Tk()
+    root.minsize(300, 400)
     app = Application(master=root)
     root.mainloop()
 

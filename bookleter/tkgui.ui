@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <interface>
   <object class="ttk.Frame" id="mainwindow">
-    <property name="height">350</property>
+    <property name="height">400</property>
     <property name="padding">50</property>
     <property name="width">300</property>
     <layout>
