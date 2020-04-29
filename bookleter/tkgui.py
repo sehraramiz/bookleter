@@ -11,7 +11,7 @@ class Application:
         
         self.builder = builder = pygubu.Builder()
         current_path = pathlib.Path(__file__).parent.absolute()
-        tkui_path = current_path / 'tkgui.ui'
+        tkui_path = current_path / 'bookleter.ui'
         builder.add_from_file(tkui_path)
         self.mainwindow = builder.get_object('mainwindow', master)
         builder.connect_callbacks(self)

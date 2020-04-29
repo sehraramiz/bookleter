@@ -3,7 +3,7 @@
 block_cipher = None
 
 data_files = [
-				('tkgui.ui', '.'),
+				('bookleter.ui', '.'),
 			]
 
 hidden_imports=[
@@ -12,7 +12,7 @@ hidden_imports=[
 
 
 a = Analysis(['tkgui.py'],
-             pathex=['C:\\Users\\ela\\Desktop\\bookleter\\bookleter\\bookleter'],
+             pathex=[],
              binaries=[],
 			 datas = data_files,
              hiddenimports=hidden_imports,
@@ -31,7 +31,7 @@ exe = EXE(pyz,
           a.zipfiles,
           a.datas,
           [],
-          name='tkgui',
+          name='Bookleter',
           debug=False,
           bootloader_ignore_signals=False,
           strip=False,
@@ -44,4 +44,4 @@ coll = COLLECT(exe,
                a.datas,
                strip=False,
                upx=True,
-               name='tkgui')
+               name='Bookleter')
