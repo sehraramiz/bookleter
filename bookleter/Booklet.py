@@ -1,5 +1,4 @@
-import logging, shutil, sys
-from pathlib import Path
+import logging, shutil, sys, tempfile
 from pathlib import Path, PurePath
 
 from PyPDF2 import PdfFileWriter, PdfFileReader, pdf
@@ -26,8 +25,10 @@ class Book():
 
         logging.basicConfig(level=logging.NOTSET)
         
-        self.temp_path = self.input_file_path.parent / 'tmp'
-        Path(self.temp_path).mkdir(parents=True, exist_ok=True)
+        # self.temp_path = self.input_file_path.parent / 'tmp'
+        self.temp_path = Path(tempfile.gettempdir())
+
+        # Path(tempfile.gettempdir()).mkdir(parents=True, exist_ok=True)
 
         self.original_pdf_name = self.input_file_path.name
         self.original_pdf_path = str(self.input_file_path)
@@ -90,7 +91,7 @@ class Book():
         self._set_crop(self.reversed_blanked_shuffled_test_pdf_name, self.test_pdf_name)
 
         logging.info("cleaning up...")
-        shutil.rmtree(self.temp_path)
+        # shutil.rmtree(self.temp_path)
 
         logging.info("finished!")
 
