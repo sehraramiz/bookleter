@@ -13,7 +13,7 @@
       <object class="ttk.Button" id="file_path_button">
         <property name="command">on_file_path_button_clicked</property>
         <property name="default">active</property>
-        <property name="text" translatable="yes">Open File</property>
+        <property name="text" translatable="yes">Open PDF File</property>
         <layout>
           <property name="column">0</property>
           <property name="ipadx">5</property>
