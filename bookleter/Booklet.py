@@ -15,13 +15,20 @@ class Book():
         crop,
         ):
 
-        # TODO add input validation
+        self._validate_inputs(
+            input_file_path,
+            start_page_number,
+            end_page_number,
+            crop
+        )
+
         current_path = Path.cwd()
         self.input_file_path = PurePath.joinpath(current_path, input_file_path)
-        self.start_page_number = start_page_number
-        self.end_page_number = end_page_number
+        self.start_page_number = int(start_page_number)
+        self.end_page_number = int(end_page_number)
         self.direction = direction
         self.crop = crop
+
 
         logging.basicConfig(level=logging.NOTSET)
         
@@ -144,8 +151,8 @@ class Book():
         output = PdfFileWriter()
 
         for page in inputpdf.pages:
-            page.cropBox.lowerLeft = tuple([a + b for a, b in zip(page.cropBox.lowerLeft, (self.crop['left'], self.crop['bottom']))])
-            page.cropBox.upperRight = tuple([a - b for a, b in zip(page.cropBox.upperRight, (self.crop['right'], self.crop['top']))])
+            page.cropBox.lowerLeft = tuple([a + b for a, b in zip(page.cropBox.lowerLeft, (int(self.crop['left']), int(self.crop['bottom'])))])
+            page.cropBox.upperRight = tuple([a - b for a, b in zip(page.cropBox.upperRight, (int(self.crop['right']), int(self.crop['top'])))])
             
             output.addPage(page)
         with open(output_pdf_name, "wb") as output_stream:
@@ -153,6 +160,22 @@ class Book():
 
     def check_booklet_is_created(self):
         return Path(self.final_pdf_name).is_file() and Path(self.test_pdf_name).is_file()
+
+    def _validate_inputs(
+            self,
+            input_file_path,
+            start_page_number,
+            end_page_number,
+            crop
+        ):
+        if input_file_path == "":
+            raise ValueError('Please add a pdf file')
+        if "" in (start_page_number, end_page_number):
+            raise ValueError('Please enter start and end page numbers')
+        if "" in ["" for key in crop.keys() if key == crop[key]]:
+            raise ValueError('Please enter all the crop values')
+
+
 
     def __str__(self):
         return str({

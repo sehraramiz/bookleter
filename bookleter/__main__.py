@@ -36,8 +36,11 @@ def main():
             "bottom": crop_amount[3]
         }
 
-        NewBook = Booklet.Book(sys.argv[1], start_page_number, end_page_number, book_direction, crop)
-        NewBook.make_booklet()
+        try:
+            NewBook = Booklet.Book(sys.argv[1], start_page_number, end_page_number, book_direction, crop)
+            NewBook.make_booklet()
+        except Exception as e:
+            print(e)
 
 
 

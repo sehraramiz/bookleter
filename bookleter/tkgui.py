@@ -38,10 +38,10 @@ class Application:
         self.end_page_number = ""
 
         self.crop = {
-            'left': 0,
-            'top': 0,
-            'right': 0,
-            'bottom': 0
+            'left': "",
+            'top': "",
+            'right': "",
+            'bottom': ""
         }
 
         self.builder.get_object('crop_left').insert(0, 'left')
@@ -52,7 +52,7 @@ class Application:
         for entry_id in ["crop_left", "crop_top", "crop_right", "crop_bottom"]:
             self.set_placeholder(entry_id)
 
-        self.book_direction_index = ""
+        self.book_direction_index = 0
 
 
     def set_placeholder(self, entry_id):
@@ -66,9 +66,8 @@ class Application:
     def foc_in(self, *args):
         try:
             int(args[1]['entry'].get())
-        except Exception as e:
+        except Exception:
             args[1]['entry'].delete('0', 'end')
-            print(e)
 
     def foc_out(self, *args):
         if not args[1]['entry'].get():
@@ -83,26 +82,25 @@ class Application:
     def on_make_booklet_button_clicked(self):
         self.start_page_number = self.builder.get_object('start_page_input').get()
         self.end_page_number = self.builder.get_object('end_page_input').get()
-        self.crop["left"] = int(self.builder.get_object('crop_left').get())
-        self.crop["top"] = int(self.builder.get_object('crop_top').get())
-        self.crop["right"] = int(self.builder.get_object('crop_right').get())
-        self.crop["bottom"] = int(self.builder.get_object('crop_bottom').get())
+        self.crop["left"] = self.builder.get_object('crop_left').get()
+        self.crop["top"] = self.builder.get_object('crop_top').get()
+        self.crop["right"] = self.builder.get_object('crop_right').get()
+        self.crop["bottom"] = self.builder.get_object('crop_bottom').get()
 
         direction_options = ["rtl", "ltr"]
 
         # make booklet
-        if self.validate_inputs():
+        try :
             new_book = Booklet.Book(
                 self.file_path,
-                int(self.start_page_number),
-                int(self.end_page_number),
+                self.start_page_number,
+                self.end_page_number,
                 direction_options[self.book_direction_index],
                 self.crop
             )
-            print(new_book)
             new_book.make_booklet()
-        else:
-            print("invalid")
+        except Exception as e:
+            messagebox.showerror("", e)
             return
         
         if not new_book.check_booklet_is_created():
@@ -111,15 +109,6 @@ class Application:
         
         messagebox.showinfo("", "Your Booklet Is Ready!")
     
-    def validate_inputs(self):
-        if "" in [
-            self.file_path, self.start_page_number,
-            self.end_page_number, str(self.book_direction_index),
-            self.crop
-            ]:
-            return False
-        return True
-
     def on_book_direction_change(self, event):
         combo = self.builder.get_object('book_direction_combobox')
         self.book_direction_index = combo.current()
