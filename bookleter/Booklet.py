@@ -25,10 +25,7 @@ class Book():
 
         logging.basicConfig(level=logging.NOTSET)
         
-        # self.temp_path = self.input_file_path.parent / 'tmp'
         self.temp_path = Path(tempfile.gettempdir())
-
-        # Path(tempfile.gettempdir()).mkdir(parents=True, exist_ok=True)
 
         self.original_pdf_name = self.input_file_path.name
         self.original_pdf_path = str(self.input_file_path)
