@@ -99,12 +99,11 @@ class Application:
                 self.crop
             )
             new_book.make_booklet()
+        except IndexError:
+            messagebox.showerror("", "Page number out of range")
+            return
         except Exception as e:
             messagebox.showerror("", e)
-            return
-        
-        if not new_book.check_booklet_is_created():
-            messagebox.showwarning("Sorry", "Please Reastart The App For Another booklet :>")
             return
         
         messagebox.showinfo("", "Your Booklet Is Ready!")

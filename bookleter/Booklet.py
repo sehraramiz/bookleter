@@ -83,21 +83,29 @@ class Book():
             self._set_crop(self.blanked_shuffled_pdf_name, self.final_pdf_name)
 
 
-        logging.info("creating test pdf...")
-        self._pickout_pages(1, 8)
+        if self._get_pdf_pages_count(self.original_pdf_path) >= 8:
+            logging.info("creating test pdf...")
+            self._pickout_pages(1, 8)
 
-        if self.direction == "rtl":
-            self._reverse_pages_order()
+            if self.direction == "rtl":
+                self._reverse_pages_order()
 
-        print_order = shuffle.foop(8)
-        self._shuffle_pdf(self.reversed_blanked_shuffled_test_pdf_name, print_order)
+            print_order = shuffle.foop(8)
+            self._shuffle_pdf(self.reversed_blanked_shuffled_test_pdf_name, print_order)
 
-        self._set_crop(self.reversed_blanked_shuffled_test_pdf_name, self.test_pdf_name)
+            self._set_crop(self.reversed_blanked_shuffled_test_pdf_name, self.test_pdf_name)
+        else:
+            # a book with less than 8 pages doesn't need a test pdf file
+            logging.info("skip creating test pdf...")
 
         logging.info("cleaning up...")
         # shutil.rmtree(self.temp_path)
 
         logging.info("finished!")
+
+    def _get_pdf_pages_count(self, input_file_path):
+        pdf = PdfFileReader(open(input_file_path, "rb"))
+        return pdf.getNumPages()
 
     def _pickout_pages(self, start_page_number, end_page_number):
         inputpdf = PdfFileReader(open(self.original_pdf_path, "rb"))
@@ -158,9 +166,6 @@ class Book():
         with open(output_pdf_name, "wb") as output_stream:
             output.write(output_stream)
 
-    def check_booklet_is_created(self):
-        return Path(self.final_pdf_name).is_file() and Path(self.test_pdf_name).is_file()
-
     def _validate_inputs(
             self,
             input_file_path,
@@ -170,10 +175,29 @@ class Book():
         ):
         if input_file_path == "":
             raise ValueError('Please add a pdf file')
+        
         if "" in (start_page_number, end_page_number):
             raise ValueError('Please enter start and end page numbers')
-        if "" in ["" for key in crop.keys() if key == crop[key]]:
+        else:
+            try:
+                int(start_page_number)
+                int(end_page_number)
+            except:
+                raise ValueError('Start and end page value must be a number')
+        
+        if int(end_page_number) > self._get_pdf_pages_count(input_file_path):
+            raise ValueError('End page number out of range\nYour book has only {} pages'.format(self._get_pdf_pages_count(input_file_path)))
+        
+
+        crop_values = ["" for key in crop.keys() if key == crop[key]]
+        if "" in crop_values:
             raise ValueError('Please enter all the crop values')
+        else:
+            for val in crop.values():
+                try:
+                    int(val)
+                except:
+                    raise ValueError('Crop value must be a number')
 
 
 

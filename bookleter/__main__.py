@@ -39,6 +39,8 @@ def main():
         try:
             NewBook = Booklet.Book(sys.argv[1], start_page_number, end_page_number, book_direction, crop)
             NewBook.make_booklet()
+        except IndexError:
+            print("Page number out of range")
         except Exception as e:
             print(e)
 
