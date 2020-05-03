@@ -5,7 +5,7 @@
 
 <h2 dir="rtl">
   
-[روش نصب ، استفاده ، چاپ و اطلاعات بیشتر](https://www.google.com)</br>
+[روش نصب ، استفاده ، چاپ و اطلاعات بیشتر](https://virgool.io/@mohsenbarzegar/bookleter-nkkuh18xnbyk)</br>
 
 </h2>
 
