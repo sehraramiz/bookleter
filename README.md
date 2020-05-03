@@ -3,11 +3,11 @@
 
 ![My Hot Booklet](screenshots/header.jpg)
 
-<h1 dir="rtl">
+<h3 dir="rtl">
   
 [روش نصب ، استفاده ، چاپ و اطلاعات بیشتر](https://www.google.com)</br>
 
-</h1>
+</h3>
 
 ## install
 ```console
