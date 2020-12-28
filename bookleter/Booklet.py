@@ -31,7 +31,7 @@ class Book():
 
 
         logging.basicConfig(level=logging.NOTSET)
-        
+
         self.temp_path = Path(tempfile.gettempdir())
 
         self.original_pdf_name = self.input_file_path.name
@@ -161,7 +161,7 @@ class Book():
         for page in inputpdf.pages:
             page.cropBox.lowerLeft = tuple([a + b for a, b in zip(page.cropBox.lowerLeft, (int(self.crop['left']), int(self.crop['bottom'])))])
             page.cropBox.upperRight = tuple([a - b for a, b in zip(page.cropBox.upperRight, (int(self.crop['right']), int(self.crop['top'])))])
-            
+
             output.addPage(page)
         with open(output_pdf_name, "wb") as output_stream:
             output.write(output_stream)
@@ -175,7 +175,7 @@ class Book():
         ):
         if input_file_path == "":
             raise ValueError('Please add a pdf file')
-        
+
         if "" in (start_page_number, end_page_number):
             raise ValueError('Please enter start and end page numbers')
         else:
@@ -184,10 +184,10 @@ class Book():
                 int(end_page_number)
             except:
                 raise ValueError('Start and end page value must be a number')
-        
+
         if int(end_page_number) > self._get_pdf_pages_count(input_file_path):
             raise ValueError('End page number out of range\nYour book has only {} pages'.format(self._get_pdf_pages_count(input_file_path)))
-        
+
 
         crop_values = ["" for key in crop.keys() if key == crop[key]]
         if "" in crop_values:
