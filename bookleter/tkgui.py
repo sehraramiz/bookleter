@@ -125,11 +125,11 @@ class Application:
 
         virgool_link = Label(toplevel, text="About Booklets", fg="blue", cursor="hand2", pady=5)
         virgool_link.pack()
-        virgool_link.bind("<Button-1>", lambda e: self.callback("http://virgool.io/@mohsenbarzegar/d/nkkuh18xnbyk"))
+        virgool_link.bind("<Button-1>", lambda e: self.callback("https://virgool.io/@mohsenbarzegar/bookleter-nkkuh18xnbyk"))
 
         new_version_link = Label(toplevel, text="New Version", fg="blue", cursor="hand2", pady=5)
         new_version_link.pack()
-        new_version_link.bind("<Button-1>", lambda e: self.callback("http://github.com/reinenichts/bookleter/releases/new"))
+        new_version_link.bind("<Button-1>", lambda e: self.callback("https://github.com/reinenichts/bookleter/releases"))
 
         button = tk.Button(
             toplevel, 
