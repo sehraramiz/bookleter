@@ -52,9 +52,6 @@ class Book():
         logging.info("picking out desired pages...")
         self._pickout_pages(self.start_page_number, self.end_page_number)
 
-        self.end_page_number = (self.end_page_number - self.start_page_number) + 1
-        self.start_page_number = 1
-
         self.correct_pages_count, self.blank_pages_count = self._calc_pdf_pages()
 
         if self.blank_pages_count:
@@ -146,11 +143,13 @@ class Book():
             output.write(output_stream)
 
     def _calc_pdf_pages(self):
-        if self.end_page_number % 8 == 0:
-            correct_pages_count = self.end_page_number
+        end_page_number = (self.end_page_number - self.start_page_number) + 1
+        start_page_number = 1
+        if end_page_number % 8 == 0:
+            correct_pages_count = end_page_number
         else:
-            correct_pages_count = ((((self.end_page_number - self.start_page_number) + 1) // 8) + 1) * 8
-        white_pages_count = correct_pages_count - self.end_page_number
+            correct_pages_count = ((((end_page_number - start_page_number) + 1) // 8) + 1) * 8
+        white_pages_count = correct_pages_count - end_page_number
         return correct_pages_count, white_pages_count
 
     def _set_crop(self, input_pdf_name, output_pdf_name):
