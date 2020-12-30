@@ -2,6 +2,7 @@ import logging, shutil, sys, tempfile
 from pathlib import Path, PurePath
 
 from PyPDF2 import PdfFileWriter, PdfFileReader, pdf
+from pdfrw import PdfReader, PdfWriter, PageMerge
 from bookleter import shuffle
 
 
@@ -89,6 +90,42 @@ class Book():
 
         with open(self.final_pdf_name, "wb") as output_stream:
             final.write(output_stream)
+
+        self._make_four_in_one_pdf(self.final_pdf_name)
+        self._make_four_in_one_pdf(self.test_pdf_name)
+
+    def _make_four_in_one_pdf(self, inputpdf):
+        outputpdf = inputpdf.replace('.pdf', '_4in1.pdf')
+        pages = PdfReader(inputpdf).pages
+        writer = PdfWriter(outputpdf)
+
+        # can't use a blank page in pdfrw lib
+        # because of None existent page contents
+        # so for every blank page we clone the page contents
+        # from a non empty page
+        non_empty_page_contents = None
+        for page in pages:
+            if page.Contents:
+                non_empty_page_contents = page.Contents
+        for page in pages:
+            if not page.Contents:
+                page.Contents = non_empty_page_contents
+
+        for index in range(0, len(pages), 4):
+            page = self._get_four_pages_as_one(pages[index:index + 4])
+            writer.addpage(page)
+        writer.write()
+
+
+    def _get_four_pages_as_one(self, srcpages):
+        scale = 0.5
+        srcpages = PageMerge() + srcpages
+        x_increment, y_increment = (scale * i for i in srcpages.xobj_box[2:])
+        for i, page in enumerate(srcpages):
+            page.scale(scale)
+            page.x = x_increment if i & 1 else 0
+            page.y = 0 if i & 2 else y_increment
+        return srcpages.render()
 
     def _get_pdf_pages_count(self, input_file_path):
         pdf = PdfFileReader(open(input_file_path, "rb"))
