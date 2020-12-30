@@ -1,4 +1,4 @@
-import logging, shutil, sys, tempfile
+import logging
 from pathlib import Path, PurePath
 
 from PyPDF2 import PdfFileWriter, PdfFileReader, pdf
@@ -31,8 +31,6 @@ class Book():
         self.crop = crop
 
         logging.basicConfig(level=logging.NOTSET)
-
-        self.temp_path = Path(tempfile.gettempdir())
 
         self.original_pdf_name = self.input_file_path.name
         self.original_pdf_path = str(self.input_file_path)
