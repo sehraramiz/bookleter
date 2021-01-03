@@ -1,4 +1,4 @@
-import logging
+import logging, os
 from pathlib import Path, PurePath
 
 from PyPDF2 import PdfFileWriter, PdfFileReader, pdf
@@ -91,6 +91,10 @@ class Book():
 
         self._make_four_in_one_pdf(self.final_pdf_name)
         self._make_four_in_one_pdf(self.test_pdf_name)
+
+        # cleanup
+        os.remove(self.final_pdf_name)
+        os.remove(self.test_pdf_name)
 
     def _make_four_in_one_pdf(self, inputpdf):
         outputpdf = inputpdf.replace('.pdf', '_4in1.pdf')
