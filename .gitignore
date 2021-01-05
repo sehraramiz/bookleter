@@ -4,3 +4,6 @@
 
 dist/*.pdf
 *.pdf
+
+build
+dist
