@@ -1,7 +1,7 @@
 import sys, logging, re
 from pathlib import Path, PurePath
 from bookleter import Booklet
-from bookleter import tkgui
+from bookleter import gui
 
 def main():
     logging.basicConfig(level=logging.NOTSET)
@@ -14,7 +14,7 @@ def main():
     """
 
     if len(sys.argv) == 1:
-        tkgui.gui_main()
+        gui.gui_main()
     elif len(sys.argv) < 5:
         logging.error("missing some arguments\nuse it like this:\n{}".format(example_usage_command))
         sys.exit()
