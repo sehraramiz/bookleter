@@ -1,6 +1,7 @@
 import logging, os
 from pathlib import Path, PurePath
 
+from pdfrw.objects.pdfdict import PdfDict
 from PyPDF2 import PdfFileWriter, PdfFileReader, pdf
 from pdfrw import PdfReader, PdfWriter, PageMerge
 from bookleter import shuffle
@@ -57,6 +58,9 @@ class Book():
         print_order = shuffle.foop(correct_pages_count)
         test_print_order = shuffle.foop(8)
 
+        # getting a normal size from a real page in pdf for blank pages
+        base_page_size = inputpdf.getPage(len(print_order) // 2).mediaBox
+
         for blank in range(blank_pages_count):
             page_numbers.append(-1)
         if self.direction == "rtl":
@@ -68,8 +72,7 @@ class Book():
             if pg_number == -1:
                 # it's a blank page
                 page = pdf.PageObject.createBlankPage(pdf=inputpdf)
-                page.cropBox.lowerLeft = tuple([a + b for a, b in zip(page.cropBox.lowerLeft, (int(self.crop['left']), int(self.crop['bottom'])))])
-                page.cropBox.upperRight = tuple([a - b for a, b in zip(page.cropBox.upperRight, (int(self.crop['right']), int(self.crop['top'])))])
+                page.mediaBox = base_page_size
                 final.addPage(page)
             else:
                 # it's a page from the original pdf
@@ -105,10 +108,7 @@ class Book():
         # because of None existent page contents
         # so for every blank page we clone the page contents
         # from a non empty page
-        non_empty_page_contents = None
-        for page in pages:
-            if page.Contents:
-                non_empty_page_contents = page.Contents
+        non_empty_page_contents = PdfDict(Length=1)
         for page in pages:
             if not page.Contents:
                 page.Contents = non_empty_page_contents
