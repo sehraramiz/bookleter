@@ -15,7 +15,6 @@ setup(
     install_requires=[
             'PyPDF2',
             'Pillow',
-            'pygubu',
             'pdfrw',
         ],
     entry_points = {
