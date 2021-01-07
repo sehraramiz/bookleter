@@ -50,27 +50,76 @@ def make_booklet():
 
     messagebox.showinfo("", "your booklet is ready!")
 
+BG_COLOR = "snow"
+
 window = Tk()
 window.title(f"Bookleter {__version__}")
-window.geometry('400x200')
+window.geometry('600x300')
 window.option_add('*Font', '20')
-window.configure(background = "white")
-window.minsize(400, 200)
+window.configure(background=BG_COLOR)
+window.minsize(500, 300)
 
-direction_label = Label(window ,text="Direction")
-start_page_label = Label(window ,text="Start Page")
-end_page_label = Label(window , text="End Page")
-crop_label = Label(window , text="Crop")
-file_explorer_label = Label(window, text="*.pdf")
+direction_label = Label(window ,text="Direction", bg=BG_COLOR)
+start_page_label = Label(window ,text="Start Page", bg=BG_COLOR)
+end_page_label = Label(window , text="End Page", bg=BG_COLOR)
+crop_label = Label(window , text="Crop", bg=BG_COLOR)
+crop_label_left = Label(window , text="Left :", bg=BG_COLOR)
+crop_label_top = Label(window , text="Top :", bg=BG_COLOR)
+crop_label_right = Label(window , text="Right :", bg=BG_COLOR)
+crop_label_bottom = Label(window , text="Bottom :", bg=BG_COLOR)
+file_explorer_label = Label(window, text="*.pdf", bg=BG_COLOR, fg="red")
 
-direction_label.grid(row=1, column=0)
-start_page_label.grid(row=2, column=0)
-end_page_label.grid(row=3, column = 0)
-crop_label.grid(row=4, column=0)
-file_explorer_label.grid(row=6, column=0)
+direction_label.grid(
+    row=1, column=0,
+    ipadx=3, ipady=3,
+    padx=5, pady=5,
+)
+start_page_label.grid(
+    row=2, column=0,
+    ipadx=30, ipady=3,
+)
+end_page_label.grid(
+    row=3, column=0,
+    ipadx=3, ipady=3,
+)
+crop_label.grid(
+    row=4, column=0,
+    ipadx=3, ipady=3,
+)
+crop_label_left.grid(
+    row=4, column=1,
+    ipadx=3, ipady=3,
+)
+crop_label_top.grid(
+    row=4, column=3,
+    ipadx=3, ipady=3,
+)
+crop_label_right.grid(
+    row=5, column=1,
+    ipadx=3, ipady=3,
+)
+crop_label_bottom.grid(
+    row=5, column=3,
+    ipadx=3, ipady=3,
+)
+file_explorer_label.grid(
+    row=6, column=0,
+    ipadx=3, ipady=3,
+)
 
-button_explore = Button(window, text="Open Pdf File", command=browse_files)
-button_explore.grid(row=0, column=0)
+button_explore = Button(
+    window,
+    text="Open Pdf File",
+    command=browse_files,
+    width=15,
+    bg="gray15",
+    fg="gold",
+)
+button_explore.grid(
+    row=0, column=0,
+    ipadx=3, ipady=3,
+    padx=5, pady=5,
+)
 
 start_page_input = Entry(window, width=5)
 end_page_input = Entry(window, width=5)
@@ -85,12 +134,24 @@ direction_options.current(0)
 direction_options.grid(row=1, column=1)
 start_page_input.grid(row=2, column=1)
 end_page_input.grid(row=3, column=1)
-crop_left_input.grid(row=4, column=1)
-crop_top_input.grid(row=4, column=2)
-crop_right_input.grid(row=4, column=3)
-crop_bottom_input.grid(row=4, column=4)
+crop_left_input.grid(row=4, column=2)
+crop_top_input.grid(row=4, column=4)
+crop_right_input.grid(row=5, column=2)
+crop_bottom_input.grid(row=5, column=4)
 
-make_booklet_button = ttk.Button(window ,text="Make My Booklet", command=make_booklet).grid(row=5,column=0)
+make_booklet_button = Button(
+    window,
+    text="Make Booklet",
+    command=make_booklet,
+    width=20,
+    bg="gray15",
+    fg="gold",
+)
+make_booklet_button.grid(
+    row=7,column=0,
+    ipadx=3, ipady=3,
+    padx=5, pady=5,
+)
 
 def gui_main():
     window.mainloop()
