@@ -4,8 +4,8 @@
 ![My Hot Booklet](screenshots/header.jpg)
 
 <h2 dir="rtl">
-  
-[روش نصب ، استفاده ، چاپ و اطلاعات بیشتر](https://virgool.io/@mohsenbarzegar/bookleter-nkkuh18xnbyk)</br>
+
+[روش نصب ، استفاده ، چاپ و اطلاعات بیشتر](http://sehraramiz.ir/bookleter.html)</br>
 
 </h2>
 
