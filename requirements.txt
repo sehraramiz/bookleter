@@ -1,4 +1,4 @@
 pdfCropMargins==0.2.6
 Pillow==9.0.1
-PyPDF2==1.26.0
+PyPDF2==1.27.5
 pdfrw
