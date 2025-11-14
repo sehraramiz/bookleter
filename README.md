@@ -26,6 +26,3 @@ page crop: amount of page border crop in pixels 'left top right bottom'
 ```console
 $ bookleter my_book.pdf 1-30 rtl '50 50 50 50'
 ```
-
-![GUI](screenshots/bookleter_gui.png)
-
