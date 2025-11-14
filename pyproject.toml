@@ -1,6 +1,12 @@
 [project]
 name = "bookleter"
-version = "0.8.0"
+description = "Turns pdfs into A6 sized foldable booklets"
+readme = "README.md"
+license = "MIT"
+authors = [
+  { name = "Mohsen Barzegar", email = "2.mohsenbarzegar@gmail.com" }
+]
+keywords = ["booklet", "A6"]
 requires-python = ">=3.10"
 dependencies = [
     "pdfcropmargins>=2.2.1",
@@ -8,3 +14,20 @@ dependencies = [
     "pillow>=12.0.0",
     "pypdf2>=3.0.1",
 ]
+dynamic = ["version"]
+
+[project.urls]
+HomePage = "https://github.com/sehraramiz/bookleter"
+
+[project.scripts]
+bookleter = "bookleter.__main__:main"
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["bookleter"]
+
+[tool.setuptools.dynamic]
+version = { attr = "bookleter.__init__.__version__" }

@@ -3,7 +3,7 @@ from tkinter import *
 from tkinter import ttk, messagebox, filedialog
 
 from bookleter import Booklet
-from bookleter.__version__ import __version__
+from bookleter import __version__
 
 
 pdf_file_path = ""
